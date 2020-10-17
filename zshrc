@@ -100,6 +100,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ### Alias
+
+# * Alacritty themes
 alias at='alacritty-themes'
 
+### Bash program when terminal emulator runs
 neofetch

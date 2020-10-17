@@ -200,7 +200,7 @@ screens = [
                     text=' ',
                     fontsize=15,
                     padding=3,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e shutdown")}
+                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e shutdown now")}
                 ),
             ],
             opacity=0.75,
@@ -210,6 +210,9 @@ screens = [
             [
                 widget.Cmus(
                     play_color='7aa6da'
+                ),
+                widget.Sep(
+                    linewidth=0
                 ),
                 widget.Spacer(),
                 widget.TextBox(
