@@ -1,5 +1,7 @@
 # Dotfiles Repo
 
+![Qtile](screenshots/qtile.png)
+
 ## Overview
 
 Dotfiles are the configuration files of the applications and environments used in a Unix installation.
