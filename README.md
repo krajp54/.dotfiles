@@ -43,9 +43,12 @@ rcdn -d <dotfile>
 
 ## Apps Config
 
-- [Zsh](https://github.com/krajp54/.dotfiles/blob/master/zshrc)
+- [Zsh](zshrc)
+- [Alacritty](https://github.com/krajp54/.dotfiles/tree/master/config/alacritty)
 
 ## Others
+
+- [Xprofile](xprofile)
 
 ## Authors ✒️
 

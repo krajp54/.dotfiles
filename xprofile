@@ -1,0 +1,32 @@
+# Settings for the second monitor
+xrandr --output HDMI-0 --mode 1366x768 --pos 0x0 --rotate normal --output eDP-1-1 --primary --mode 1920x1080 --pos 1366x0 --rotate normal
+
+# Demon for the backlight utility
+light -I
+
+# Setting the wallpaper for the desktop
+nitrogen --restore
+
+# Demon for the compositor
+picom &
+
+# Demon for the Network Manager utility
+nm-applet &
+
+# Demon for the mount/unmount utility
+udiskie -t &
+
+# Demon for the battery icon
+cbatticon &
+
+# Demon for the eye-care utility
+redshift &
+
+# Setting the keyboards layouts
+setxkbmap -layout us,latam -option grp:win_space_toggle
+
+# Setting the numlock in the keyboard
+numlockx &
+
+# Refresh the time and date
+timedatectl
