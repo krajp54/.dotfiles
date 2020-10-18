@@ -45,6 +45,7 @@ rcdn -d <dotfile>
 
 - [Zsh](zshrc)
 - [Alacritty](https://github.com/krajp54/.dotfiles/tree/master/config/alacritty)
+- [Rofi](https://github.com/krajp54/.dotfiles/tree/master/config/rofi)
 
 ## Others
 
