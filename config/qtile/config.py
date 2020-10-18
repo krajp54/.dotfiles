@@ -79,7 +79,7 @@ keys = [
     #     desc="Spawn a command using a prompt widget"),
 
     # Keybindings for Rofi
-    Key([mod], "m", lazy.spawn("rofi -show run"),
+    Key([mod], "m", lazy.spawn("rofi -show drun"),
         desc="Launch Rofi Run List"),
     Key([mod, 'shift'], "m", lazy.spawn("rofi -show"),
         desc="Launch Rofi list for the open windows"),
