@@ -1,7 +1,7 @@
 # Settings for the second monitor
 xrandr --output HDMI-0 --mode 1366x768 --pos 0x0 --rotate normal --output eDP-1-1 --primary --mode 1920x1080 --pos 1366x0 --rotate normal
 
-# Daemon for the backlight utility
+# Restore brightness with a backlight utility
 light -I
 
 # Setting the wallpaper for the desktop
@@ -15,9 +15,6 @@ nm-applet &
 
 # Daemon for the mount/unmount utility
 udiskie -t &
-
-# Daemon for the battery icon
-cbatticon &
 
 # Daemon for the eye-care utility
 redshift &

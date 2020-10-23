@@ -5,6 +5,7 @@
 ## Overview
 
 Dotfiles are the configuration files of the applications and environments used in a Unix installation.
+
 In this case, the distribution used was a fresh install of Arch Linux.
 
 ## Built with 🛠️
@@ -46,6 +47,7 @@ rcdn -d <dotfile>
 - [Zsh](zshrc)
 - [Alacritty](https://github.com/krajp54/.dotfiles/tree/master/config/alacritty)
 - [Rofi](https://github.com/krajp54/.dotfiles/tree/master/config/rofi)
+- [Neovim](https://github.com/krajp54/.dotfiles/tree/master/config/nvim)
 
 ## Others
 

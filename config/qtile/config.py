@@ -2,6 +2,11 @@
 # ! Author: JP (Juan Pablo Rodriguez)
 # ! GitHub: krajp54
 
+import subprocess
+
+from os import path
+from libqtile import hook
+
 from logging import disable
 from typing import List
 
@@ -14,7 +19,16 @@ from libqtile.widget.textbox import TextBox
 mod = "mod4"
 terminal = guess_terminal()
 
+# * Launch the autostart file
+qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
+
+
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.call([path.join(qtile_path, 'autostart.sh')])
+
 # * Key Bindings Settings
+
 
 keys = [
 
@@ -56,7 +70,7 @@ keys = [
     Key([mod, "shift"], "space", lazy.layout.rotate(),
         desc="Swap panes of split stack"),
 
-    # multiple stack panes
+    # Multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack"),
 
@@ -67,10 +81,10 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(),
         desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(),
-        desc="Kill focused window"),
 
     # Direct actions from Qtile
+    Key([mod], "w", lazy.window.kill(),
+        desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.restart(),
         desc="Restart qtile"),
     Key([mod, "control"], "q", lazy.shutdown(),
@@ -98,7 +112,7 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 1%-"),
         desc="Decrease brightness of the screen"),
 
-    # CMus Player
+    # CMus Player (Music Player)
     Key([mod, "shift"], "p", lazy.spawn(terminal + " -e cmus"),
         desc="Launch Cmus Player"),
 
@@ -109,7 +123,7 @@ keys = [
 
 # * Workspaces Settings
 
-group_names=[
+group_names = [
     ("爵", {'layout': 'max'}),
     ("", {'layout': 'monadtall'}),
     ("", {'layout': 'floating'}),
@@ -124,8 +138,9 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     # Switch to another workspace
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
 
-    #Send focus window to another workspace
-    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name, switch_group=True)))
+    # Send focus window to another workspace
+    keys.append(Key([mod, "shift"], str(
+        i), lazy.window.togroup(name, switch_group=True)))
 
 # * Layouts Settings
 
@@ -159,7 +174,8 @@ screens = [
                     text='',
                     fontsize=25,
                     padding=10,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn("rofi -show run")}
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn("rofi -show run")}
                 ),
                 widget.Sep(
                     linewidth=0,
@@ -200,7 +216,8 @@ screens = [
                     text=' ',
                     fontsize=15,
                     padding=3,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e shutdown now")}
+                    mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
+                        terminal + " -e shutdown now")}
                 ),
             ],
             opacity=0.75,
@@ -216,14 +233,15 @@ screens = [
                 ),
                 widget.Spacer(),
                 widget.TextBox(
-                    text = "",
-                    fontsize = 18
+                    text="",
+                    fontsize=18
                 ),
                 widget.CheckUpdates(
                     update_interval=3600,
                     distro='Arch',
                     display_format='Updates: {updates}',
-                    custom_command='checkupdates'
+                    custom_command='checkupdates',
+                    no_update_string='N/A'
                 ),
                 widget.TextBox(
                     text='﬙',
@@ -235,7 +253,8 @@ screens = [
                 widget.TextBox(
                     text='',
                     fontsize=18,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e htop")}
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e htop")}
                 ),
                 widget.Memory(
                     format='Mem: {MemUsed}M'
@@ -243,7 +262,8 @@ screens = [
                 widget.TextBox(
                     text='',
                     fontsize=18,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('Thunar')}
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn('Thunar')}
                 ),
                 widget.DF(
                     format='({uf}{m}|{r:.0f}%)',
@@ -252,7 +272,8 @@ screens = [
                 widget.TextBox(
                     text='墳',
                     fontsize=18,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('pavucontrol')}
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn('pavucontrol')}
                 ),
                 widget.PulseVolume(),
                 widget.TextBox(
@@ -302,7 +323,8 @@ screens = [
                 widget.TextBox(
                     text='',
                     fontsize=18,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e htop")}
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e htop")}
                 ),
                 widget.Memory(
                     format='Mem: {MemUsed}M'
@@ -310,7 +332,8 @@ screens = [
                 widget.TextBox(
                     text='墳',
                     fontsize=18,
-                    mouse_callbacks = {'Button1': lambda qtile: qtile.cmd_spawn('pavucontrol')}
+                    mouse_callbacks={
+                        'Button1': lambda qtile: qtile.cmd_spawn('pavucontrol')}
                 ),
                 widget.PulseVolume(),
                 widget.TextBox(
