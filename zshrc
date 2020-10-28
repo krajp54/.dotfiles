@@ -99,10 +99,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-### Alias
+# * Alias
 
-# * Alacritty themes
+# Alacritty themes
 alias at='alacritty-themes'
 
-### Bash program when terminal emulator runs
+# Clear Screen
+alias cs='clear'
+
+# * Bash program when terminal emulator runs
 neofetch

@@ -17,7 +17,7 @@ nm-applet &
 udiskie -t &
 
 # Daemon for the eye-care utility
-redshift &
+redshift-gtk & disown
 
 # Setting the keyboards layouts
 setxkbmap -layout us,latam -option grp:win_space_toggle

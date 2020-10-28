@@ -1,4 +1,4 @@
-### .File for Qtile Config ###
+# --- .File for Qtile Config --- #
 # ! Author: JP (Juan Pablo Rodriguez)
 # ! GitHub: krajp54
 
@@ -7,17 +7,17 @@ import subprocess
 from os import path
 from libqtile import hook
 
-from logging import disable
 from typing import List
 
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from libqtile.widget.textbox import TextBox
 
 mod = "mod4"
 terminal = guess_terminal()
+br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
+br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
 
 # * Launch the autostart file
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
@@ -26,6 +26,16 @@ qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call([path.join(qtile_path, 'autostart.sh')])
+
+# * Launch every dialog window as a floating window
+
+
+@hook.subscribe.client_new
+def floating_dialogs(window):
+    dialog = window.window.get_wm_type() == 'dialog'
+    transient = window.window.get_wm_transient_for()
+    if dialog or transient:
+        window.floating = True
 
 # * Key Bindings Settings
 
@@ -75,7 +85,7 @@ keys = [
         desc="Toggle between split and unsplit sides of stack"),
 
     # Launch guess terminal
-    Key([mod], "Return", lazy.spawn(terminal),
+    Key([mod], "Return", lazy.spawn("alacritty"),
         desc="Launch terminal"),
 
     # Toggle between different layouts as defined below
@@ -113,7 +123,7 @@ keys = [
         desc="Decrease brightness of the screen"),
 
     # CMus Player (Music Player)
-    Key([mod, "shift"], "p", lazy.spawn(terminal + " -e cmus"),
+    Key([mod, "shift"], "p", lazy.spawn("alacritty -e cmus"),
         desc="Launch Cmus Player"),
 
     # Shutter (Screenshots)
@@ -122,6 +132,7 @@ keys = [
 ]
 
 # * Workspaces Settings
+
 
 group_names = [
     ("爵", {'layout': 'max'}),
@@ -175,7 +186,9 @@ screens = [
                     fontsize=25,
                     padding=10,
                     mouse_callbacks={
-                        'Button1': lambda qtile: qtile.cmd_spawn("rofi -show run")}
+                        'Button1': lambda qtile:
+                            qtile.cmd_spawn("rofi -show run")
+                    }
                 ),
                 widget.Sep(
                     linewidth=0,
@@ -211,7 +224,11 @@ screens = [
                 widget.Sep(padding=5),
                 widget.Systray(),
                 widget.Sep(padding=5),
-                widget.Clock(format='%B %d - %H:%M'),
+                widget.Clock(
+                    format='%B %d - %H:%M',
+                    mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
+                        terminal + " -e khal interactive")}
+                ),
                 widget.TextBox(
                     text=' ',
                     fontsize=15,
@@ -254,7 +271,8 @@ screens = [
                     text='',
                     fontsize=18,
                     mouse_callbacks={
-                        'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e htop")}
+                        'Button1': lambda qtile: qtile.cmd_spawn(
+                            terminal + " -e htop")}
                 ),
                 widget.Memory(
                     format='Mem: {MemUsed}M'
@@ -273,7 +291,8 @@ screens = [
                     text='墳',
                     fontsize=18,
                     mouse_callbacks={
-                        'Button1': lambda qtile: qtile.cmd_spawn('pavucontrol')}
+                        'Button1': lambda qtile:
+                            qtile.cmd_spawn('pavucontrol')}
                 ),
                 widget.PulseVolume(),
                 widget.TextBox(
@@ -281,8 +300,8 @@ screens = [
                     fontsize=18
                 ),
                 widget.Backlight(
-                    brightness_file='/sys/class/backlight/amdgpu_bl0/brightness',
-                    max_brightness_file='/sys/class/backlight/amdgpu_bl0/max_brightness',
+                    brightness_file=br_path,
+                    max_brightness_file=br_max_path,
                     change_command='brightnessctl set {0}',
                     step=5
                 ),
@@ -324,7 +343,8 @@ screens = [
                     text='',
                     fontsize=18,
                     mouse_callbacks={
-                        'Button1': lambda qtile: qtile.cmd_spawn(terminal + " -e htop")}
+                        'Button1': lambda qtile:
+                            qtile.cmd_spawn(terminal + " -e htop")}
                 ),
                 widget.Memory(
                     format='Mem: {MemUsed}M'
@@ -333,7 +353,8 @@ screens = [
                     text='墳',
                     fontsize=18,
                     mouse_callbacks={
-                        'Button1': lambda qtile: qtile.cmd_spawn('pavucontrol')}
+                        'Button1': lambda qtile:
+                            qtile.cmd_spawn('pavucontrol')}
                 ),
                 widget.PulseVolume(),
                 widget.TextBox(
@@ -341,8 +362,8 @@ screens = [
                     fontsize=18
                 ),
                 widget.Backlight(
-                    brightness_file='/sys/class/backlight/amdgpu_bl0/brightness',
-                    max_brightness_file='/sys/class/backlight/amdgpu_bl0/max_brightness',
+                    brightness_file=br_path,
+                    max_brightness_file=br_max_path,
                     change_command='brightnessctl set {0}',
                     step=5
                 ),
