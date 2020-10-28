@@ -1,58 +1,34 @@
+set encoding=utf-8
+scriptencoding utf-8
+
+" * Global Settings for vim
+
 set number
 set mouse=a
-
-" * Width for the number in the left ruler
-" set numberwidth=3
-
+set numberwidth=1
 set clipboard=unnamedplus
 set showcmd
 set ruler
-set encoding=utf-8
 set showmatch
 set sw=4
 set relativenumber
 set laststatus=2
 set noshowmode
+set updatetime=100
+set hidden
+set nobackup
+set nowritebackup
+set cmdheight=2
 
 syntax enable
 
-call plug#begin('~/.config/nvim/plugged')
+" Establish the key leader
+let mapleader=' '
 
-" Themes
-Plug 'morhetz/gruvbox'
+" Support for Python3
+let g:python3_host_prog='/usr/bin/python'
 
-" * IDE
-" Easymotion
-Plug 'easymotion/vim-easymotion'
-
-" NerdTree
-Plug 'scrooloose/nerdtree'
-
-" Tmux Navigator
-Plug 'christoomey/vim-tmux-navigator'
-
-call plug#end()
-
-" * Settings for the pluggins
-" Establish the theme and its settings
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = "hard"
-
-" Establish the key leader to call functions of plugins
-let mapleader=" "
-
-" Key binding for the function in Easymotion
-" Searches for two chars to jump in the text of the open file
-nmap <Leader>s <Plug>(easymotion-s2)
-
-" Settings for nerdtree
-let NERDTreeQuitOnOpen=1
-nmap <Leader>nt :NERDTreeFind<CR>
-
-" * Custom Key Bindings
-" Custom Write
-nmap <Leader>w :w<CR>
-
-" Custom Quit
-nmap <Leader>q :q<CR>
-
+" Load the settings files
+so ~/.config/nvim/settings/plugs.vim
+so ~/.config/nvim/settings/plug-config.vim
+so ~/.config/nvim/settings/keys.vim
