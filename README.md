@@ -40,14 +40,17 @@ rcdn -d <dotfile>
 
 ## Window Manager Config
 
+- [Openbox](https://github.com/krajp54/.dotfiles/tree/master/config/openbox)
 - [Qtile](https://github.com/krajp54/.dotfiles/tree/master/config/qtile)
 
 ## Apps Config
 
-- [Zsh](zshrc)
 - [Alacritty](https://github.com/krajp54/.dotfiles/tree/master/config/alacritty)
-- [Rofi](https://github.com/krajp54/.dotfiles/tree/master/config/rofi)
 - [Neovim](https://github.com/krajp54/.dotfiles/tree/master/config/nvim)
+- [Rofi](config/rofi/config.rasi)
+- [Tint2](config/tint2/tint2rc)
+- [ViFM](https://github.com/krajp54/.dotfiles/tree/master/config/vifm)
+- [Zsh](zshrc)
 
 ## Others
 

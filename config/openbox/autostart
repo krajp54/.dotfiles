@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Launch the panel
+tint2 &
+
+# Daemon for the volume icon
+volumeicon &
+
+# Daemon for the eye-care utility
+redshift-gtk & disown
+
