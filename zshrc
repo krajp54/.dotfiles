@@ -1,6 +1,5 @@
-
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/home/jp/scripts:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/jp/.oh-my-zsh"
@@ -107,5 +106,9 @@ alias at='alacritty-themes'
 # Clear Screen
 alias cs='clear'
 
+# ViFMRun for media in window preview
+alias vifm='vifmrun'
+
 # * Bash program when terminal emulator runs
 neofetch
+
