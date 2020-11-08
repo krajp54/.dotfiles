@@ -18,6 +18,8 @@ mod = "mod4"
 terminal = guess_terminal()
 br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
+hard_color = 'E88360'
+soft_color = '3C578C'
 
 # * Launch the autostart file
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
@@ -85,7 +87,7 @@ keys = [
         desc="Toggle between split and unsplit sides of stack"),
 
     # Launch guess terminal
-    Key([mod], "Return", lazy.spawn("alacritty"),
+    Key([mod], "Return", lazy.spawn(terminal),
         desc="Launch terminal"),
 
     # Toggle between different layouts as defined below
@@ -108,7 +110,7 @@ keys = [
     Key([mod, 'shift'], "m", lazy.spawn("rofi -show"),
         desc="Launch Rofi list for the open windows"),
 
-    # Volumen
+    # Volume
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 3"),
         desc="Decrease volume of default source"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer --increase 3"),
@@ -123,12 +125,22 @@ keys = [
         desc="Decrease brightness of the screen"),
 
     # CMus Player (Music Player)
-    Key([mod, "shift"], "p", lazy.spawn("alacritty -e cmus"),
+    Key([mod, "shift"], "p", lazy.spawn(terminal + " -e cmus"),
         desc="Launch Cmus Player"),
+    Key([mod], "Down", lazy.spawn("cmus-remote -u"),
+        desc="Play-pause-command"),
+    Key([mod], "Right", lazy.spawn("cmus-remote -n"),
+        desc="Next-command"),
+    Key([mod], "Left", lazy.spawn("cmus-remote -r"),
+        desc="Prev-command"),
 
     # Shutter (Screenshots)
     Key([mod, "shift"], "s", lazy.spawn("shutter"),
         desc="Launch Shutter App for Screenshots"),
+
+    # Launch Firefox
+    Key([mod, "shift"], "f", lazy.spawn("firefox"),
+        desc="Launch Firefox Browser"),
 ]
 
 # * Workspaces Settings
@@ -158,8 +170,8 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 layout_theme = {
     "border_width": 2,
     "margin": 5,
-    "border_focus": "99BCC2",
-    "border_normal": "2C3738"
+    "border_focus": hard_color,
+    "border_normal": soft_color
 }
 
 layouts = [
@@ -176,6 +188,23 @@ widget_defaults = dict(
     padding=5,
 )
 extension_defaults = widget_defaults.copy()
+
+
+def wid_groups(): return widget.GroupBox(
+    font='HeavyData Nerd Font',
+    fontsize=19,
+    margin=3,
+    padding=8,
+    borderwidth=2,
+    rounded=False,
+    highlight_method='line',
+    disable_drag=True,
+    this_current_screen_border=hard_color,
+    this_screen_border=hard_color,
+    other_current_screen_border=soft_color,
+    other_screen_border=soft_color
+)
+
 
 screens = [
     Screen(
@@ -194,16 +223,7 @@ screens = [
                     linewidth=0,
                     padding=5
                 ),
-                widget.GroupBox(
-                    font='HeavyData Nerd Font',
-                    fontsize=19,
-                    margin=3,
-                    padding=8,
-                    borderwidth=2,
-                    rounded=False,
-                    highlight_method='line',
-                    disable_drag=True
-                ),
+                wid_groups(),
                 widget.WindowName(),
                 widget.Wlan(
                     interface="wlp4s0",
@@ -243,7 +263,8 @@ screens = [
         bottom=bar.Bar(
             [
                 widget.Cmus(
-                    play_color='7aa6da'
+                    play_color=hard_color,
+                    noplay_color=soft_color
                 ),
                 widget.Sep(
                     linewidth=0
@@ -313,16 +334,7 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(
-                    font='HeavyData Nerd Font',
-                    fontsize=19,
-                    margin=3,
-                    padding=8,
-                    borderwidth=2,
-                    rounded=False,
-                    highlight_method='line',
-                    disable_drag=True
-                ),
+                wid_groups(),
                 widget.WindowName(),
                 widget.Sep(padding=5),
                 widget.CurrentLayout(),
