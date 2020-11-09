@@ -97,17 +97,17 @@ def floating_dialogs(window):
 
 Declaration of my personal keybindings that I use when I'm inside a Qtile session, these are some important:
 
-| Key                    | Action                                                      |
-| ---------------------- | ----------------------------------------------------------- |
-| **ModKey + Return**    | Launchs the terminal defined in the guess_terminal variable |
-| **ModKey + Tab**       | Change the current layout                                   |
-| **ModKey + w**         | Close the focus window                                      |
-| **ModKey + Ctrl + r**  | Restart Qtile                                               |
-| **ModKey + Ctrl + q**  | Close Qtile session                                         |
-| **ModKey + m**         | Launchs Rofi Drun mod                                       |
-| **ModKey + Shift + p** | Launchs Cmus Music Player                                   |
-| **ModKey + Shift + s** | Launchs Shutter                                             |
-| **ModKey + Shift + f** | Launchs Firefox                                             |
+| Key                    | Action                                             |
+| ---------------------- | -------------------------------------------------- |
+| **ModKey + Return**    | Launches the default terminal emulator of the host |
+| **ModKey + Tab**       | Change the current layout                          |
+| **ModKey + w**         | Close the focus window                             |
+| **ModKey + Ctrl + r**  | Restart Qtile                                      |
+| **ModKey + Ctrl + q**  | Close Qtile session                                |
+| **ModKey + m**         | Launchs Rofi Drun mod                              |
+| **ModKey + Shift + p** | Launchs Cmus Music Player                          |
+| **ModKey + Shift + s** | Launchs Shutter                                    |
+| **ModKey + Shift + f** | Launchs Firefox                                    |
 
 ```python
 keys = [
@@ -514,7 +514,7 @@ mouse = [
 
 ### Inner settings Qtile
 
-These are some inner settings of Qtile, if you want to change these you better read the documentation in the Qtile website before breaks it :).
+These are some inner settings of Qtile, if you want to change these you better read the documentation in the Qtile website before breaks it :)
 
 ```python
 dgroups_key_binder = None
