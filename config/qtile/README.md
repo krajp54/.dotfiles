@@ -1,7 +1,35 @@
-# --- .File for Qtile Config --- #
-# ! Author: JP (Juan Pablo Rodriguez)
-# ! GitHub: krajp54
+# Qtile Config
 
+![Qtile](../../screenshots/qtile.png)
+
+## Table of contents
+
+1. [About Qtile](#about-qtile)
+2. [Imports](#imports)
+3. [Variables](#variables)
+4. [Autostart](#autostart)
+5. [Custom hooks](#custom-hooks)
+6. [Keys](#keys)
+7. [Workspaces](#workspaces)
+8. [Layouts](#layouts)
+9. [Widgets](#widgets)
+10. [Screens](#screens)
+11. [Mouse](#mouse)
+12. [Inner Settings](#inner-settings-qtile)
+
+### About Qtile
+
+Extract from the official **[website]** for Qtile
+
+"A full-featured, hackable tiling window manager written and configured in Python"
+
+[website]: http://www.qtile.org/
+
+### Imports
+
+Python modules that must be imported in this configuration file.
+
+```python
 import subprocess
 
 from os import path
@@ -13,24 +41,49 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+```
 
+### Variables
+
+Declaration of the variables that I used for the rest of the configuration.
+
+```python
 mod = "mod4"
 terminal = guess_terminal()
 br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
 hard_color = 'E88360'
 soft_color = '3C578C'
+```
 
-# * Launch the autostart file
+### Autostart
+
+Declaration of the function used to read and execute the autostart file at the beginning of the Qtile session.
+
+```python
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
-
 
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call([path.join(qtile_path, 'autostart.sh')])
+```
 
-# * Launch every dialog window as a floating window
+#### Autostart file
 
+```bash
+# Daemon for the battery icon
+cbatticon -u 5 &
+
+# Daemon for the eye-care utility
+redshift-gtk & disown
+```
+
+### Custom hooks
+
+Declaration of custom functions to be executed when an event happen inside Qtile.
+
+```python
+# Launch every dialog window as a floating window
 
 @hook.subscribe.client_new
 def floating_dialogs(window):
@@ -38,10 +91,25 @@ def floating_dialogs(window):
     transient = window.window.get_wm_transient_for()
     if dialog or transient:
         window.floating = True
+```
 
-# * Key Bindings Settings
+### Keys
 
+Declaration of my personal keybindings that I use when I'm inside a Qtile session, these are some important:
 
+| Key                    | Action                                                      |
+| ---------------------- | ----------------------------------------------------------- |
+| **ModKey + Return**    | Launchs the terminal defined in the guess_terminal variable |
+| **ModKey + Tab**       | Change the current layout                                   |
+| **ModKey + w**         | Close the focus window                                      |
+| **ModKey + Ctrl + r**  | Restart Qtile                                               |
+| **ModKey + Ctrl + q**  | Close Qtile session                                         |
+| **ModKey + m**         | Launchs Rofi Drun mod                                       |
+| **ModKey + Shift + p** | Launchs Cmus Music Player                                   |
+| **ModKey + Shift + s** | Launchs Shutter                                             |
+| **ModKey + Shift + f** | Launchs Firefox                                             |
+
+```python
 keys = [
 
     # Switch focus between windows in current stack pane
@@ -142,10 +210,22 @@ keys = [
     Key([mod, "shift"], "f", lazy.spawn("firefox"),
         desc="Launch Firefox Browser"),
 ]
+```
 
-# * Workspaces Settings
+### Workspaces
 
+Declaration of my personal workspaces with its initial layout, plus the declaration of the keybindings to change between workspaces and send a focused window to another workspace.
 
+To load the icons you need to install a [NerdFont].
+
+[nerdfont]: https://www.nerdfonts.com/
+
+| Key                          | Action                                            |
+| ---------------------------- | ------------------------------------------------- |
+| **ModKey + (1 - 6)**         | Switch to the selected workspace                  |
+| **ModKey + Shift + (1 - 6)** | Send the focused window to the selected workspace |
+
+```python
 group_names = [
     ("爵", {'layout': 'max'}),
     ("", {'layout': 'monadtall'}),
@@ -164,9 +244,13 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     # Send focus window to another workspace
     keys.append(Key([mod, "shift"], str(
         i), lazy.window.togroup(name, switch_group=True)))
+```
 
-# * Layouts Settings
+### Layouts
 
+Declaration of the layouts that I use with its settings. There are a lot of different layouts that you could check on the Qtile documentation in their website.
+
+```python
 layout_theme = {
     "border_width": 2,
     "margin": 5,
@@ -180,15 +264,37 @@ layouts = [
     layout.Floating(**layout_theme),
 ]
 
-# * Widgets Settings
+floating_layout = layout.Floating(
+    float_rules=[
+        {'wmclass': 'confirm'},
+        {'wmclass': 'dialog'},
+        {'wmclass': 'download'},
+        {'wmclass': 'error'},
+        {'wmclass': 'file_progress'},
+        {'wmclass': 'notification'},
+        {'wmclass': 'splash'},
+        {'wmclass': 'toolbar'},
+        {'wmclass': 'confirmreset'},
+        {'wmclass': 'makebranch'},
+        {'wmclass': 'maketag'},
+        {'wname': 'branchdialog'},
+        {'wname': 'pinentry'},
+        {'wmclass': 'ssh-askpass'},
+    ]
+)
+```
 
+### Widgets
+
+The widgets are the functionalities built-in the bar from the top and the bottom of my configuration.
+
+```python
 widget_defaults = dict(
     font='Caskaydia Cove Nerd Font',
     fontsize=13,
     padding=5,
 )
 extension_defaults = widget_defaults.copy()
-
 
 def wid_groups(): return widget.GroupBox(
     font='HeavyData Nerd Font',
@@ -204,7 +310,6 @@ def wid_groups(): return widget.GroupBox(
     other_current_screen_border=soft_color,
     other_screen_border=soft_color
 )
-
 
 def wid_top_main_screen(): return [
     widget.TextBox(
@@ -254,7 +359,6 @@ def wid_top_main_screen(): return [
             terminal + " -e shutdown now")}
     ),
 ]
-
 
 def wid_bottom_main_screen(): return [
     widget.Cmus(
@@ -323,7 +427,6 @@ def wid_bottom_main_screen(): return [
     ),
 ]
 
-
 def wid_second_screen(): return [
     wid_groups(),
     widget.WindowName(),
@@ -371,8 +474,13 @@ def wid_second_screen(): return [
         step=5
     ),
 ]
+```
 
+### Screens
 
+Screen settings for my double monitor setup.
+
+```python
 screens = [
     Screen(
         top=bar.Bar(wid_top_main_screen(), opacity=0.75, size=20),
@@ -382,8 +490,19 @@ screens = [
         top=bar.Bar(wid_second_screen(), opacity=0.75, size=20),
     ),
 ]
+```
 
-# * Mouse Events for dragging floating layouts.
+### Mouse
+
+Declaration and configuration for the mouse events inside Qtile.
+
+| Key                              | Action                                                       |
+| -------------------------------- | ------------------------------------------------------------ |
+| **ModKey + Mouse Left Button**   | Changes the focused window to a floating window and drags it |
+| **ModKey + Mouse Right Button**  | Changes the size of the floating focused window              |
+| **ModKey + Mouse Middle Button** | Brings to the front the floating focused window              |
+
+```python
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
@@ -391,9 +510,13 @@ mouse = [
          start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
+```
 
-# * Qtile variables settings
+### Inner settings Qtile
 
+These are some inner settings of Qtile, if you want to change these you better read the documentation in the Qtile website before breaks it :).
+
+```python
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 main = None  # WARNING: this is deprecated and will be removed soon
@@ -401,26 +524,8 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 
-floating_layout = layout.Floating(
-    float_rules=[
-        {'wmclass': 'confirm'},
-        {'wmclass': 'dialog'},
-        {'wmclass': 'download'},
-        {'wmclass': 'error'},
-        {'wmclass': 'file_progress'},
-        {'wmclass': 'notification'},
-        {'wmclass': 'splash'},
-        {'wmclass': 'toolbar'},
-        {'wmclass': 'confirmreset'},
-        {'wmclass': 'makebranch'},
-        {'wmclass': 'maketag'},
-        {'wname': 'branchdialog'},
-        {'wname': 'pinentry'},
-        {'wmclass': 'ssh-askpass'},
-    ]
-)
-
 auto_fullscreen = True
 focus_on_window_activation = "urgent"
 
 wmname = "LG3D"
+```
