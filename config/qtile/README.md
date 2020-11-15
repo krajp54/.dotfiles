@@ -1,6 +1,6 @@
 # Qtile Config
 
-![Qtile](../../screenshots/qtile.png)
+![Qtile](../../screenshots/qtile2.png)
 
 ## Table of contents
 
@@ -34,6 +34,7 @@ import subprocess
 
 from os import path
 from libqtile import hook
+from Xlib import display as xdisplay
 
 from typing import List
 
@@ -54,6 +55,9 @@ br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
 hard_color = 'E88360'
 soft_color = '3C578C'
+micro_cmd = terminal + " -e ./.scripts/toggle-micro.sh"
+touchpad_cmd = terminal + " -e ./.scripts/toggle-touchpad.sh"
+screenshots_cmd = 'shutter --no_session'
 ```
 
 ### Autostart
@@ -83,13 +87,22 @@ redshift-gtk & disown
 Declaration of custom functions to be executed when an event happen inside Qtile.
 
 ```python
-# Launch every dialog window as a floating window
+# * Launch every dialog window as a floating window
 
 @hook.subscribe.client_new
 def floating_dialogs(window):
     dialog = window.window.get_wm_type() == 'dialog'
     transient = window.window.get_wm_transient_for()
     if dialog or transient:
+        window.floating = True
+
+# Firefox Library Window display as a floating window
+
+@hook.subscribe.client_new
+def float_firefox(window):
+    wm_class = window.window.get_wm_class()
+    w_name = window.window.get_name()
+    if wm_class == ("Places", "firefox") and w_name == "Library":
         window.floating = True
 ```
 
@@ -106,16 +119,15 @@ Declaration of my personal keybindings that I use when I'm inside a Qtile sessio
 | **ModKey + Ctrl + q**  | Close Qtile session                                |
 | **ModKey + m**         | Launchs Rofi Drun mod                              |
 | **ModKey + Shift + p** | Launchs Cmus Music Player                          |
-| **ModKey + Shift + s** | Launchs Shutter                                    |
 | **ModKey + Shift + f** | Launchs Firefox                                    |
 
 ```python
 keys = [
 
     # Switch focus between windows in current stack pane
-    Key([mod], "k", lazy.layout.down(),
+    Key([mod], "k", lazy.layout.up(),
         desc="Move focus down in stack pane"),
-    Key([mod], "j", lazy.layout.up(),
+    Key([mod], "j", lazy.layout.down(),
         desc="Move focus up in stack pane"),
     Key([mod], "h", lazy.layout.left(),
         desc="Move focus left in stack pane"),
@@ -125,10 +137,10 @@ keys = [
     # Change window sizes (MonadTall)
     Key([mod, "shift"], "l", lazy.layout.grow(),
         lazy.layout.increase_nmaster(),
-        desc="Grow size of master window"),
+        desc="Grow size of focus window"),
     Key([mod, "shift"], "h", lazy.layout.shrink(),
         lazy.layout.decrease_nmaster(),
-        desc="Shrink size of master window"),
+        desc="Shrink size of focus window"),
 
     # Move windows in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down(),
@@ -160,7 +172,9 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(),
-        desc="Toggle between layouts"),
+        desc="Next available layout"),
+    Key([mod, "shift"], "Tab", lazy.prev_layout(),
+        desc="Previous available layout"),
 
     # Direct actions from Qtile
     Key([mod], "w", lazy.window.kill(),
@@ -186,6 +200,14 @@ keys = [
     Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute"),
         desc="Mute volume of default source"),
 
+    # Microphone
+    Key([mod, "control"], "F4", lazy.spawn(micro_cmd),
+        desc="Mute/Unmute microphone"),
+
+    # Touchpad
+    Key([], "XF86TouchpadToggle", lazy.spawn(touchpad_cmd),
+        desc="Enable/Disable the touchpad"),
+
     # Brightness
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +1%"),
         desc="Increase brightness of the screen"),
@@ -203,8 +225,10 @@ keys = [
         desc="Prev-command"),
 
     # Shutter (Screenshots)
-    Key([mod, "shift"], "s", lazy.spawn("shutter"),
-        desc="Launch Shutter App for Screenshots"),
+    Key([mod, "shift"], "s", lazy.spawn(screenshots_cmd + " -s"),
+        desc="Launch Shutter for a selection screenshot"),
+    Key([mod], "Print", lazy.spawn(screenshots_cmd + " --full"),
+        desc="Take a screenshot of full desktop"),
 
     # Launch Firefox
     Key([mod, "shift"], "f", lazy.spawn("firefox"),
@@ -259,9 +283,13 @@ layout_theme = {
 }
 
 layouts = [
+    layout.Floating(**layout_theme),
     layout.Max(**layout_theme),
     layout.MonadTall(**layout_theme),
-    layout.Floating(**layout_theme),
+    layout.Zoomy(
+        **layout_theme,
+        columnwidth=300,
+    ),
 ]
 
 floating_layout = layout.Floating(
@@ -280,7 +308,8 @@ floating_layout = layout.Floating(
         {'wname': 'branchdialog'},
         {'wname': 'pinentry'},
         {'wmclass': 'ssh-askpass'},
-    ]
+    ],
+    **layout_theme
 )
 ```
 
@@ -296,6 +325,7 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+
 def wid_groups(): return widget.GroupBox(
     font='HeavyData Nerd Font',
     fontsize=19,
@@ -305,11 +335,21 @@ def wid_groups(): return widget.GroupBox(
     rounded=False,
     highlight_method='line',
     disable_drag=True,
+    use_mouse_wheel=False,
     this_current_screen_border=hard_color,
     this_screen_border=hard_color,
     other_current_screen_border=soft_color,
     other_screen_border=soft_color
 )
+
+
+def custom_sep(): return widget.TextBox(
+    text='',
+    font='HeavyData Nerd Font',
+    fontsize=15,
+    padding=0,
+)
+
 
 def wid_top_main_screen(): return [
     widget.TextBox(
@@ -336,16 +376,18 @@ def wid_top_main_screen(): return [
         format='{down} ↓↑ {up}',
         padding=1
     ),
-    widget.Sep(padding=5),
-    widget.CurrentLayout(),
-    widget.Sep(padding=5),
+    custom_sep(),
+    widget.CurrentLayoutIcon(
+        scale=0.9
+    ),
+    custom_sep(),
     widget.KeyboardLayout(
         configured_keyboards=['us', 'latam'],
         option='grp:win_space_toggle'
     ),
-    widget.Sep(padding=5),
+    custom_sep(),
     widget.Systray(),
-    widget.Sep(padding=5),
+    custom_sep(),
     widget.Clock(
         format='%B %d - %H:%M',
         mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
@@ -359,6 +401,7 @@ def wid_top_main_screen(): return [
             terminal + " -e shutdown now")}
     ),
 ]
+
 
 def wid_bottom_main_screen(): return [
     widget.Cmus(
@@ -427,17 +470,20 @@ def wid_bottom_main_screen(): return [
     ),
 ]
 
+
 def wid_second_screen(): return [
     wid_groups(),
     widget.WindowName(),
-    widget.Sep(padding=5),
-    widget.CurrentLayout(),
-    widget.Sep(padding=5),
+    custom_sep(),
+    widget.CurrentLayoutIcon(
+        scale=0.85
+    ),
+    custom_sep(),
     widget.KeyboardLayout(
         configured_keyboards=['us', 'latam'],
         option='grp:win_space_toggle'
     ),
-    widget.Sep(padding=5),
+    custom_sep(),
     widget.TextBox(
         text='﬙',
         fontsize=18
@@ -478,18 +524,48 @@ def wid_second_screen(): return [
 
 ### Screens
 
-Screen settings for my double monitor setup.
+Settings for every screen in the set corresponding to the number of monitors that are connected to the host. The screens are dynamic assigned according to that.
 
 ```python
+def get_num_monitors():
+    num_monitors = 0
+    try:
+        display = xdisplay.Display()
+        screen = display.screen()
+        resources = screen.root.xrandr_get_screen_resources()
+
+        for output in resources.outputs:
+            monitor = display.xrandr_get_output_info(
+                output, resources.config_timestamp)
+            preferred = False
+            if hasattr(monitor, "preferred"):
+                preferred = monitor.preferred
+            elif hasattr(monitor, "num_preferred"):
+                preferred = monitor.num_preferred
+            if preferred:
+                num_monitors += 1
+    except Exception as e:
+        return 1
+    else:
+        return num_monitors
+
+
+num_monitors = get_num_monitors()
+
 screens = [
     Screen(
         top=bar.Bar(wid_top_main_screen(), opacity=0.75, size=20),
         bottom=bar.Bar(wid_bottom_main_screen(), opacity=0.75, size=17)
-    ),
-    Screen(
-        top=bar.Bar(wid_second_screen(), opacity=0.75, size=20),
-    ),
+    )
 ]
+
+if num_monitors > 1:
+    for n in range(num_monitors - 1):
+        screens.append(
+            Screen(
+                top=bar.Bar(wid_second_screen(), opacity=0.75, size=20),
+            ),
+        )
 ```
 
 ### Mouse

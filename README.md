@@ -55,6 +55,7 @@ rcdn -d <dotfile>
 ## Others
 
 - [Xprofile](xprofile)
+- [Personal Scripts](https://github.com/krajp54/.dotfiles/tree/master/scripts)
 
 ## Authors ✒️
 

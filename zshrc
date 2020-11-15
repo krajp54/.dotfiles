@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=/home/jp/scripts:$PATH
+export PATH=/home/jp/.scripts:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/jp/.oh-my-zsh"
@@ -85,6 +85,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
