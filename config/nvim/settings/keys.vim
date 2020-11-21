@@ -10,7 +10,7 @@ nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
 
 " Custom Write
-nmap <Leader>w :w<CR>
+nmap <Leader>w :wall<CR>
 
 " Custom Quit
 nmap <Leader>q :q<CR>
@@ -18,11 +18,19 @@ nmap <Leader>q :q<CR>
 " Vertical Split
 nmap <Leader>vs :vs<CR>
 
+" Custom Map ':'
+nmap ; :
+
 " Format the file
-nmap <Leader>fc :Autoformat<CR>
+" nmap <Leader>fc :Autoformat<CR>
+" nmap <Leader>fc <Plug>(Prettier)
+nmap <Leader>fc :Neoformat<CR>
 
 " List all buffers
 nmap <Leader><Tab> :Buffers<CR>
+
+" Delete the current buffer
+nmap <Leader>bc :bdelete<CR>
 
 " Turn off highlighting until next search
 nmap <Leader>no :noh<CR>
@@ -35,4 +43,19 @@ nmap <Leader>pu :PlugUpdate<CR>
 
 " Git Status (Fugitive)
 nmap <Leader>gi :Git<CR>
+
+" Disable warnings from Syntastic
+nmap <Leader>x :lclose<CR>
+
+" Keybindings for the bufferline
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 

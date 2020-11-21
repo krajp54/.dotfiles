@@ -8,6 +8,10 @@ Plug 'morhetz/gruvbox'
 Plug 'jacoborus/tender.vim'
 Plug 'shinchu/lightline-gruvbox.vim'
 
+" Icons for NerdTree
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 " IDE
 
 " Easymotion
@@ -20,7 +24,9 @@ Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Autoformat
-Plug 'Chiel92/vim-autoformat'
+" Plug 'Chiel92/vim-autoformat'
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'sbdchd/neoformat'
 
 " fzf VIM
 Plug 'junegunn/fzf'
@@ -28,6 +34,7 @@ Plug 'junegunn/fzf.vim'
 
 " Lightline
 Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
 
 " Fugitive
 Plug 'tpope/vim-fugitive'
@@ -46,6 +53,15 @@ Plug 'jiangmiao/auto-pairs'
 
 " CoC (Completion)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Autoclose tags
+Plug 'alvan/vim-closetag'
+
+" Use NerdFonts in Vim
+Plug 'lambdalisue/nerdfont.vim'
+
+" Highlight syntaxis
+Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 

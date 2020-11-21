@@ -11,6 +11,9 @@ set showcmd
 set ruler
 set showmatch
 set sw=4
+set ts=4
+set expandtab
+set smartindent
 set relativenumber
 set laststatus=2
 set noshowmode
@@ -19,6 +22,8 @@ set hidden
 set nobackup
 set nowritebackup
 set cmdheight=2
+set showtabline=2
+" set nocompatible
 
 syntax enable
 

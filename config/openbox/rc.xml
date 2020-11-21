@@ -67,14 +67,15 @@
         </font>
     </theme>
     <desktops>
-        <number>5</number>
+        <number>6</number>
         <firstdesk>1</firstdesk>
         <names>
             <name>Web</name>
             <name>Dev</name>
             <name>Cfg</name>
-            <name>Media</name>
+            <name>Sys</name>
             <name>Pkg</name>
+            <name>Media</name>
         </names>
         <popupTime>875</popupTime>
     </desktops>
