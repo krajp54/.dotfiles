@@ -116,3 +116,8 @@ let g:neoformat_enabled_json = ['prettier']
 let g:neoformat_enabled_ts = ['prettier']
 let g:neoformat_enabled_xml = ['prettier']
 
+" Settings for IndentLine
+let g:indentLine_char = '¦'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
+

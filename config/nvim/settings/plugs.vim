@@ -63,5 +63,8 @@ Plug 'lambdalisue/nerdfont.vim'
 " Highlight syntaxis
 Plug 'sheerun/vim-polyglot'
 
+" Indent lines
+Plug 'Yggdroot/indentLine'
+
 call plug#end()
 

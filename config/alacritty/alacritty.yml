@@ -8,6 +8,10 @@ env:
 
 # * Settings for the terminal window instance
 window:
+  dimensions:
+    columns: 80
+    lines: 40
+
   padding:
     x: 8
     y: 8
@@ -25,19 +29,19 @@ scrolling:
 # * Font configuration
 font:
   normal:
-    family: Caskaydia Cove Nerd Font
+    family: RobotoMono Nerd Font
     style: Regular
 
   bold:
-    family: Caskaydia Cove Nerd Font
+    family: RobotoMono Nerd Font
     style: Bold
 
   italic:
-    family: Caskaydia Cove Nerd Font
+    family: RobotoMono Nerd Font
     style: Italic
 
   bold_italic:
-    family: Caskaydia Cove Nerd Font
+    family: RobotoMono Nerd Font
     style: Bold Italic
 
   size: 10.0
@@ -55,48 +59,64 @@ draw_bold_text_with_bright_colors: true
 # The folder "colors" contain all the colorschemes available
 
 colors:
-  # COLORSCHEME: tomorrow_night.yaml
+  # COLORSCHEME: base16-helios-256.yml
   # Default colors
   primary:
-    background: '0x1d1f21'
-    foreground: '0xc5c8c6'
+    background: "0x1d2021"
+    foreground: "0xd5d5d5"
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   normal:
-    black: '0x1d1f21'
-    red: '0xcc6666'
-    green: '0xb5bd68'
-    yellow: '0xe6c547'
-    blue: '0x81a2be'
-    magenta: '0xb294bb'
-    cyan: '0x70c0ba'
-    white: '0x373b41'
+    black: "0x1d2021"
+    red: "0xd72638"
+    green: "0x88b92d"
+    yellow: "0xf19d1a"
+    blue: "0x1e8bac"
+    magenta: "0xbe4264"
+    cyan: "0x1ba595"
+    white: "0xd5d5d5"
 
   # Bright colors
   bright:
-    black: '0x666666'
-    red: '0xff3334'
-    green: '0x9ec400'
-    yellow: '0xf0c674'
-    blue: '0x81a2be'
-    magenta: '0xb77ee0'
-    cyan: '0x54ced6'
-    white: '0x282a2e'
+    black: "0x6f7579"
+    red: "0xd72638"
+    green: "0x88b92d"
+    yellow: "0xf19d1a"
+    blue: "0x1e8bac"
+    magenta: "0xbe4264"
+    cyan: "0x1ba595"
+    white: "0xe5e5e5"
+
   cursor:
-    text: '0x1d1f21'
-    cursor: '0xffffff'
+    text: "0x1d2021"
+    cursor: "0xd5d5d5"
 
   # Normal colors
+  dim:
+    black: "0x232323"
+    red: "0x74423f"
+    green: "0x5e6547"
+    yellow: "0x8b7653"
+    blue: "0x556b79"
+    magenta: "0x6e4962"
+    cyan: "0x5c8482"
+    white: "0x828282"
+  indexed_colors:
+    - { index: 16, color: "0xeb8413" }
+    - { index: 17, color: "0xc85e0d" }
+    - { index: 18, color: "0x383c3e" }
+    - { index: 19, color: "0x53585b" }
+    - { index: 20, color: "0xcdcdcd" }
+    - { index: 21, color: "0xdddddd" }
 background_opacity: 0.92
 
 # * Default cursor on the terminal emulator
 cursor:
-# Values for `style`:
-#   - ▇ Block
-#   - _ Underline
-#   - | Beam
+  # Values for `style`:
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
   style: Block
-
 # * List of keybindings available
 #key_bindings:
 #- { key: Paste,                                action: Paste          }

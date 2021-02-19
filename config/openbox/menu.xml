@@ -2,20 +2,26 @@
 <openbox_menu>
     <menu id="root-menu" label="OpenBox 3">
         <menu id="1" label="Development">
+            <item label="Geany"> <action name="Execute">
+                <execute>geany</execute>
+            </action> </item>
             <item label="GitKraken"> <action name="Execute">
                 <execute>gitkraken</execute>
             </action> </item>
+            <item label="Icon Browser"> <action name="Execute">
+                <execute>yad-icon-browser</execute>
+            </action> </item>
             <item label="IDLE (Python IDE)"> <action name="Execute">
                 <execute>idle</execute>
-            </action> </item>
-            <item label="Kite"> <action name="Execute">
-                <execute>/home/jp/.local/share/kite/kited</execute>
             </action> </item>
             <item label="Python"> <action name="Execute">
                 <execute>alacritty -e python</execute>
             </action> </item>
             <item label="Python (v2.7)"> <action name="Execute">
                 <execute>alacritty -e python2.7</execute>
+            </action> </item>
+            <item label="Robo 3T"> <action name="Execute">
+                <execute>robo3t</execute>
             </action> </item>
             <item label="Tclsh8.6"> <action name="Execute">
                 <execute>alacritty -e tclsh8.6</execute>
@@ -25,6 +31,9 @@
             </action> </item>
         </menu>
         <menu id="2" label="Editors">
+            <item label="AA Fire"> <action name="Execute">
+                <execute>alacritty -e aafire -driver slang</execute>
+            </action> </item>
             <item label="Nano"> <action name="Execute">
                 <execute>alacritty -e nano</execute>
             </action> </item>
@@ -33,11 +42,6 @@
             </action> </item>
         </menu>
         <menu id="18" label="Games">
-            <menu id="9" label="Adventure">
-                <item label="Sclient"> <action name="Execute">
-                    <execute>sclient</execute>
-                </action> </item>
-            </menu>
             <menu id="10" label="Arcade">
                 <item label="PacMan"> <action name="Execute">
                     <execute>pacman</execute>
@@ -45,20 +49,17 @@
             </menu>
         </menu>
         <menu id="6" label="Graphics">
-            <item label="Geeqie"> <action name="Execute">
-                <execute>geeqie</execute>
-            </action> </item>
-            <item label="GNU Image Manipulation Program"> <action name="Execute">
-                <execute>gimp-2.10</execute>
-            </action> </item>
             <item label="LibreOffice Draw"> <action name="Execute">
                 <execute>libreoffice --draw</execute>
             </action> </item>
-            <item label="The GIMP"> <action name="Execute">
-                <execute>gimp</execute>
+            <item label="Ristretto Image Viewer"> <action name="Execute">
+                <execute>ristretto</execute>
             </action> </item>
         </menu>
         <menu id="7" label="Multimedia">
+            <item label="ALSA mixer"> <action name="Execute">
+                <execute>alacritty -e alsamixer</execute>
+            </action> </item>
             <item label="PulseAudio Volume Control"> <action name="Execute">
                 <execute>pavucontrol</execute>
             </action> </item>
@@ -97,17 +98,29 @@
             <item label="ElectronPlayer"> <action name="Execute">
                 <execute>electronplayer</execute>
             </action> </item>
-            <item label="ELinks"> <action name="Execute">
-                <execute>alacritty -e elinks</execute>
-            </action> </item>
             <item label="FireFox"> <action name="Execute">
                 <execute>firefox</execute>
+            </action> </item>
+            <item label="Irssi"> <action name="Execute">
+                <execute>alacritty -e irssi</execute>
             </action> </item>
             <item label="Mail Reader"> <action name="Execute">
                 <execute>exo-open --launch MailReader</execute>
             </action> </item>
-            <item label="TkVNC"> <action name="Execute">
-                <execute>xterm -e tkvnc</execute>
+            <item label="MEGAsync"> <action name="Execute">
+                <execute>megasync</execute>
+            </action> </item>
+            <item label="Microsoft Teams - Preview"> <action name="Execute">
+                <execute>teams</execute>
+            </action> </item>
+            <item label="qBittorrent"> <action name="Execute">
+                <execute>qbittorrent</execute>
+            </action> </item>
+            <item label="W3m"> <action name="Execute">
+                <execute>alacritty -e w3m</execute>
+            </action> </item>
+            <item label="w3m"> <action name="Execute">
+                <execute>alacritty -e w3m /usr/share/doc/w3m/MANUAL.html</execute>
             </action> </item>
             <item label="Web Browser"> <action name="Execute">
                 <execute>exo-open --launch WebBrowser</execute>
@@ -148,20 +161,11 @@
             <item label="GIT"> <action name="Execute">
                 <execute>alacritty -e git</execute>
             </action> </item>
-            <item label="ranger"> <action name="Execute">
-                <execute>alacritty -e ranger</execute>
+            <item label="MC"> <action name="Execute">
+                <execute>alacritty -e mc</execute>
             </action> </item>
             <item label="Thunar File Manager"> <action name="Execute">
                 <execute>thunar</execute>
-            </action> </item>
-            <item label="UXTerm"> <action name="Execute">
-                <execute>uxterm</execute>
-            </action> </item>
-            <item label="Vifm"> <action name="Execute">
-                <execute>alacritty -e vifm</execute>
-            </action> </item>
-            <item label="Xterm"> <action name="Execute">
-                <execute>xterm</execute>
             </action> </item>
         </menu>
         <menu id="37" label="System">
@@ -170,21 +174,77 @@
                     <item label="Advanced Network Configuration"> <action name="Execute">
                         <execute>nm-connection-editor</execute>
                     </action> </item>
+                    <item label="ArcoLinux Betterlockscreen"> <action name="Execute">
+                        <execute>arcolinux-betterlockscreen</execute>
+                    </action> </item>
+                    <item label="Arcolinux Tweak Tool"> <action name="Execute">
+                        <execute>arcolinux-tweak-tool</execute>
+                    </action> </item>
+                    <item label="Bluetooth"> <action name="Execute">
+                        <execute>blueberry</execute>
+                    </action> </item>
+                    <item label="LightDM GTK+ Greeter settings"> <action name="Execute">
+                        <execute>lightdm-gtk-greeter-settings-pkexec</execute>
+                    </action> </item>
+                    <item label="Privilege granting"> <action name="Execute">
+                        <execute>gksu-properties</execute>
+                    </action> </item>
                 </menu>
+                <menu id="35" label="Xfce">
+                    <item label="Settings Manager"> <action name="Execute">
+                        <execute>xfce4-settings-manager</execute>
+                    </action> </item>
+                </menu>
+                <item label="Accessibility"> <action name="Execute">
+                    <execute>xfce4-accessibility-settings</execute>
+                </action> </item>
+                <item label="Appearance"> <action name="Execute">
+                    <execute>xfce4-appearance-settings</execute>
+                </action> </item>
                 <item label="ARandR"> <action name="Execute">
                     <execute>arandr</execute>
+                </action> </item>
+                <item label="Arcolinux Welcome"> <action name="Execute">
+                    <execute>arcolinux-welcome-app</execute>
+                </action> </item>
+                <item label="Color Profiles"> <action name="Execute">
+                    <execute>xfce4-color-settings</execute>
+                </action> </item>
+                <item label="Conkyzen"> <action name="Execute">
+                    <execute>am-conkyzen</execute>
                 </action> </item>
                 <item label="Customize Look and Feel"> <action name="Execute">
                     <execute>lxappearance</execute>
                 </action> </item>
+                <item label="Display"> <action name="Execute">
+                    <execute>xfce4-display-settings</execute>
+                </action> </item>
                 <item label="File Manager Settings"> <action name="Execute">
                     <execute>thunar-settings</execute>
                 </action> </item>
-                <item label="Firewall"> <action name="Execute">
-                    <execute>firewall-config</execute>
+                <item label="Grub Customizer"> <action name="Execute">
+                    <execute>grub-customizer</execute>
+                </action> </item>
+                <item label="Keyboard"> <action name="Execute">
+                    <execute>xfce4-keyboard-settings</execute>
+                </action> </item>
+                <item label="Kvantum Manager"> <action name="Execute">
+                    <execute>kvantummanager</execute>
+                </action> </item>
+                <item label="Manage Printing"> <action name="Execute">
+                    <execute>xdg-open http://localhost:631/</execute>
+                </action> </item>
+                <item label="MIME Type Editor"> <action name="Execute">
+                    <execute>xfce4-mime-settings</execute>
+                </action> </item>
+                <item label="Mouse and Touchpad"> <action name="Execute">
+                    <execute>xfce4-mouse-settings</execute>
                 </action> </item>
                 <item label="nitrogen"> <action name="Execute">
                     <execute>nitrogen</execute>
+                </action> </item>
+                <item label="Notifications"> <action name="Execute">
+                    <execute>xfce4-notifyd-config</execute>
                 </action> </item>
                 <item label="nvidia-prime"> <action name="Execute">
                     <execute>nvidia-prime-ui</execute>
@@ -192,11 +252,26 @@
                 <item label="Openbox Configuration Manager"> <action name="Execute">
                     <execute>obconf</execute>
                 </action> </item>
+                <item label="Panel"> <action name="Execute">
+                    <execute>xfce4-panel --preferences</execute>
+                </action> </item>
+                <item label="Power Manager"> <action name="Execute">
+                    <execute>xfce4-power-manager-settings</execute>
+                </action> </item>
                 <item label="Preferred Applications"> <action name="Execute">
                     <execute>exo-preferred-applications</execute>
                 </action> </item>
+                <item label="Print Settings"> <action name="Execute">
+                    <execute>system-config-printer</execute>
+                </action> </item>
+                <item label="Qt5 Settings"> <action name="Execute">
+                    <execute>qt5ct</execute>
+                </action> </item>
                 <item label="Removable Drives and Media"> <action name="Execute">
                     <execute>thunar-volman-settings</execute>
+                </action> </item>
+                <item label="Settings Editor"> <action name="Execute">
+                    <execute>xfce4-settings-editor</execute>
                 </action> </item>
                 <item label="Tint2 Settings"> <action name="Execute">
                     <execute>tint2conf</execute>
@@ -208,26 +283,41 @@
             <item label="Bulk Rename"> <action name="Execute">
                 <execute>/usr/lib/Thunar/ThunarBulkRename</execute>
             </action> </item>
+            <item label="dconf Editor"> <action name="Execute">
+                <execute>dconf-editor</execute>
+            </action> </item>
+            <item label="GDM Setup"> <action name="Execute">
+                <execute>gksu gdmsetup</execute>
+            </action> </item>
+            <item label="GParted"> <action name="Execute">
+                <execute>gparted</execute>
+            </action> </item>
             <item label="Hardware Locality lstopo"> <action name="Execute">
                 <execute>lstopo</execute>
             </action> </item>
             <item label="Htop"> <action name="Execute">
                 <execute>alacritty -e htop</execute>
             </action> </item>
-            <item label="OpenJDK Java 14 Console"> <action name="Execute">
-                <execute>jconsole</execute>
-            </action> </item>
-            <item label="OpenJDK Java 14 Shell"> <action name="Execute">
-                <execute>alacritty -e jshell</execute>
-            </action> </item>
-            <item label="pstree"> <action name="Execute">
-                <execute>xterm -e /usr/bin/pstree.x11</execute>
+            <item label="Pstree"> <action name="Execute">
+                <execute>alacritty -e pstree.x11</execute>
             </action> </item>
             <item label="pstree"> <action name="Execute">
                 <execute>alacritty -e pstree</execute>
             </action> </item>
-            <item label="Pstree"> <action name="Execute">
-                <execute>alacritty -e pstree.x11</execute>
+            <item label="Software Token"> <action name="Execute">
+                <execute>stoken-gui</execute>
+            </action> </item>
+            <item label="Software Token (small)"> <action name="Execute">
+                <execute>stoken-gui --small</execute>
+            </action> </item>
+            <item label="sysinfo"> <action name="Execute">
+                <execute>sysinfo</execute>
+            </action> </item>
+            <item label="System Profiler and Benchmark"> <action name="Execute">
+                <execute>hardinfo</execute>
+            </action> </item>
+            <item label="Task Manager"> <action name="Execute">
+                <execute>xfce4-taskmanager</execute>
             </action> </item>
             <item label="Tint2"> <action name="Execute">
                 <execute>tint2</execute>
@@ -235,22 +325,40 @@
             <item label="Top"> <action name="Execute">
                 <execute>alacritty -e top</execute>
             </action> </item>
-            <item label="Virtual Machine Manager"> <action name="Execute">
-                <execute>virt-manager</execute>
+            <item label="USB Image Writer"> <action name="Execute">
+                <execute>mintstick -m iso</execute>
+            </action> </item>
+            <item label="Xkill"> <action name="Execute">
+                <execute>xkill</execute>
+            </action> </item>
+            <item label="Xrefresh"> <action name="Execute">
+                <execute>xrefresh</execute>
             </action> </item>
         </menu>
         <menu id="38" label="Utilities">
             <item label="About Xfce"> <action name="Execute">
                 <execute>xfce4-about</execute>
             </action> </item>
+            <item label="Archive Manager"> <action name="Execute">
+                <execute>file-roller</execute>
+            </action> </item>
             <item label="balenaEtcher"> <action name="Execute">
                 <execute>/opt/balenaEtcher/balena-etcher-electron</execute>
+            </action> </item>
+            <item label="Bc"> <action name="Execute">
+                <execute>alacritty -e bc</execute>
+            </action> </item>
+            <item label="CherryTree"> <action name="Execute">
+                <execute>cherrytree</execute>
             </action> </item>
             <item label="compton"> <action name="Execute">
                 <execute>compton</execute>
             </action> </item>
-            <item label="f.lux indicator applet"> <action name="Execute">
-                <execute>fluxgui</execute>
+            <item label="Dc"> <action name="Execute">
+                <execute>alacritty -e dc</execute>
+            </action> </item>
+            <item label="Disks"> <action name="Execute">
+                <execute>gnome-disks</execute>
             </action> </item>
             <item label="File Manager"> <action name="Execute">
                 <execute>exo-open --launch FileManager</execute>
@@ -264,23 +372,20 @@
             <item label="Redshift"> <action name="Execute">
                 <execute>redshift-gtk</execute>
             </action> </item>
-            <item label="Shutter"> <action name="Execute">
-                <execute>shutter</execute>
+            <item label="Screenshot"> <action name="Execute">
+                <execute>xfce4-screenshooter</execute>
+            </action> </item>
+            <item label="Stacer"> <action name="Execute">
+                <execute>stacer</execute>
             </action> </item>
             <item label="Terminal Emulator"> <action name="Execute">
                 <execute>exo-open --launch TerminalEmulator</execute>
             </action> </item>
-            <item label="Xarchiver"> <action name="Execute">
-                <execute>xarchiver</execute>
+            <item label="USB Stick Formatter"> <action name="Execute">
+                <execute>mintstick -m format</execute>
             </action> </item>
             <item label="Xev"> <action name="Execute">
                 <execute>alacritty -e xev</execute>
-            </action> </item>
-            <item label="Xkill"> <action name="Execute">
-                <execute>xkill</execute>
-            </action> </item>
-            <item label="Xrefresh"> <action name="Execute">
-                <execute>xrefresh</execute>
             </action> </item>
             <item label="Xsetroot"> <action name="Execute">
                 <execute>xsetroot</execute>

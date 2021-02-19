@@ -2,13 +2,13 @@
 xrandr --output HDMI-0 --mode 1366x768 --pos 0x0 --rotate normal --output eDP-1-1 --primary --mode 1920x1080 --pos 1366x0 --rotate normal
 
 # Restore brightness with a backlight utility
-light -I
+# light -I
 
 # Setting the wallpaper for the desktop
 nitrogen --restore
 
 # Daemon for the compositor
-picom &
+picom --config $HOME/.config/qtile/scripts/picom.conf &
 
 # Daemon for the Network Manager utility
 nm-applet &
@@ -22,5 +22,15 @@ setxkbmap -layout us,latam -option grp:win_space_toggle
 # Setting the numlock in the keyboard
 numlockx &
 
-# Refresh the time and date
-timedatectl
+# Power Manager from Xfce
+xfce4-power-manager &
+
+# Daemon for Bluetooth
+blueberry-tray &
+
+# Policies
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# Notifications
+/usr/lib/xfce4/notifyd/xfce4-notifyd &
+

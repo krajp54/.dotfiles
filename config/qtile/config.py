@@ -17,13 +17,14 @@ from libqtile.utils import guess_terminal
 
 mod = "mod4"
 terminal = guess_terminal()
+my_explorer = "thunar"
 br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
-hard_color = 'E88360'
-soft_color = '3C578C'
+hard_color = 'FADF7A'
+soft_color = '804455'
 micro_cmd = terminal + " -e ./.scripts/toggle-micro.sh"
 touchpad_cmd = terminal + " -e ./.scripts/toggle-touchpad.sh"
-screenshots_cmd = 'shutter --no_session'
+screenshots_cmd = "shutter --no_session"
 
 # * Launch the autostart file
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
@@ -37,11 +38,13 @@ def autostart():
 
 
 @hook.subscribe.client_new
-def floating_dialogs(window):
-    dialog = window.window.get_wm_type() == 'dialog'
-    transient = window.window.get_wm_transient_for()
-    if dialog or transient:
+def set_floating(window):
+    if (window.window.get_wm_transient_for()
+            or window.window.get_wm_type() in floating_types):
         window.floating = True
+
+
+floating_types = ["notification", "toolbar", "splash", "dialog"]
 
 # Firefox Library Window display as a floating window
 
@@ -167,6 +170,10 @@ keys = [
     # Launch Firefox
     Key([mod, "shift"], "f", lazy.spawn("firefox"),
         desc="Launch Firefox Browser"),
+
+    # Launch FileExplorer
+    Key([mod, "shift"], "t", lazy.spawn(my_explorer),
+        desc="Launche File Explorer")
 ]
 
 # * Workspaces Settings
@@ -246,6 +253,13 @@ def custom_sep(): return widget.TextBox(
 )
 
 
+def custom_clock(): return widget.Clock(
+        format='%B %d - %H:%M',
+        mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
+            terminal + " -e khal interactive")}
+    )
+
+
 def wid_top_main_screen(): return [
     widget.TextBox(
         text='',
@@ -283,17 +297,13 @@ def wid_top_main_screen(): return [
     custom_sep(),
     widget.Systray(),
     custom_sep(),
-    widget.Clock(
-        format='%B %d - %H:%M',
-        mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
-            terminal + " -e khal interactive")}
-    ),
+    custom_clock(),
     widget.TextBox(
         text=' ',
         fontsize=15,
         padding=3,
-        mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
-            terminal + " -e shutdown now")}
+        mouse_callbacks={
+            'Button1': lambda qtile: qtile.cmd_spawn("arcolinux-logout")}
     ),
 ]
 
@@ -320,7 +330,10 @@ def wid_bottom_main_screen(): return [
     ),
     widget.TextBox(
         text='﬙',
-        fontsize=18
+        fontsize=18,
+        mouse_callbacks={
+            'Button1': lambda qtile: qtile.cmd_spawn('stacer')
+        }
     ),
     widget.CPU(
         format='CPU: {load_percent}%'
@@ -414,6 +427,8 @@ def wid_second_screen(): return [
         change_command='brightnessctl set {0}',
         step=5
     ),
+    custom_sep(),
+    custom_clock(),
 ]
 
 # * Screens
@@ -490,9 +505,14 @@ floating_layout = layout.Floating(
         {'wmclass': 'confirmreset'},
         {'wmclass': 'makebranch'},
         {'wmclass': 'maketag'},
+        {'wmclass': 'Arandr'},
+        {'wmclass': 'arcolinux-logout'},
         {'wname': 'branchdialog'},
+        {'wname': 'Open File'},
         {'wname': 'pinentry'},
+        {'wname': 'Stacer'},
         {'wmclass': 'ssh-askpass'},
+        {'wname': 'Nitrogen'}
     ],
     **layout_theme
 )
