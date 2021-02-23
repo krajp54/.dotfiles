@@ -10,8 +10,8 @@ from Xlib import display as xdisplay
 
 from typing import List
 
-from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Screen
+from libqtile import bar, layout, widget, qtile
+from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -173,7 +173,11 @@ keys = [
 
     # Launch FileExplorer
     Key([mod, "shift"], "t", lazy.spawn(my_explorer),
-        desc="Launche File Explorer")
+        desc="Launche File Explorer"),
+
+    # Toggle between keyboards layout
+    Key([mod], "space", lazy.widget["keyboardlayout"].next_keyboard(),
+        desc="Next keyboard layout")
 ]
 
 # * Workspaces Settings
@@ -217,6 +221,38 @@ layouts = [
     ),
 ]
 
+# * Qtile v0.17 update
+# Refactoring the mouse callbacks
+
+
+def open_calendar():
+    qtile.cmd_spawn(terminal + " -e khal interactive")
+
+
+def rofi_show_run():
+    qtile.cmd_spawn("rofi -show run")
+
+
+def logout_view():
+    qtile.cmd_spawn("arcolinux-logout")
+
+
+def launch_stacer():
+    qtile.cmd_spawn('stacer')
+
+
+def launch_htop():
+    qtile.cmd_spawn(terminal + " -e htop")
+
+
+def launch_fe():
+    qtile.cmd_spawn(my_explorer)
+
+
+def launch_pavucontrol():
+    qtile.cmd_spawn('pavucontrol')
+
+
 # * Widgets Settings
 
 widget_defaults = dict(
@@ -255,8 +291,9 @@ def custom_sep(): return widget.TextBox(
 
 def custom_clock(): return widget.Clock(
         format='%B %d - %H:%M',
-        mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
-            terminal + " -e khal interactive")}
+        mouse_callbacks={
+            'Button1': open_calendar
+        }
     )
 
 
@@ -266,8 +303,7 @@ def wid_top_main_screen(): return [
         fontsize=25,
         padding=10,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn("rofi -show run")
+            'Button1': rofi_show_run
         }
     ),
     widget.Sep(
@@ -291,8 +327,7 @@ def wid_top_main_screen(): return [
     ),
     custom_sep(),
     widget.KeyboardLayout(
-        configured_keyboards=['us', 'latam'],
-        option='grp:win_space_toggle'
+        configured_keyboards=['us', 'latam']
     ),
     custom_sep(),
     widget.Systray(),
@@ -303,7 +338,8 @@ def wid_top_main_screen(): return [
         fontsize=15,
         padding=3,
         mouse_callbacks={
-            'Button1': lambda qtile: qtile.cmd_spawn("arcolinux-logout")}
+            'Button1': logout_view
+        }
     ),
 ]
 
@@ -332,7 +368,7 @@ def wid_bottom_main_screen(): return [
         text='﬙',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile: qtile.cmd_spawn('stacer')
+            'Button1': launch_stacer
         }
     ),
     widget.CPU(
@@ -342,8 +378,8 @@ def wid_bottom_main_screen(): return [
         text='',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile: qtile.cmd_spawn(
-                terminal + " -e htop")}
+            'Button1': launch_htop
+        }
     ),
     widget.Memory(
         format='Mem: {MemUsed}M'
@@ -352,7 +388,8 @@ def wid_bottom_main_screen(): return [
         text='',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile: qtile.cmd_spawn('Thunar')}
+            'Button1': launch_fe
+        }
     ),
     widget.DF(
         format='({uf}{m}|{r:.0f}%)',
@@ -362,8 +399,8 @@ def wid_bottom_main_screen(): return [
         text='墳',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn('pavucontrol')}
+            'Button1': launch_pavucontrol
+        }
     ),
     widget.PulseVolume(),
     widget.TextBox(
@@ -371,8 +408,9 @@ def wid_bottom_main_screen(): return [
         fontsize=18
     ),
     widget.Backlight(
-        brightness_file=br_path,
-        max_brightness_file=br_max_path,
+        backlight_name='amdgpu_bl0',
+        #  brightness_file=br_path,
+        #  max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
         step=5
     ),
@@ -403,8 +441,8 @@ def wid_second_screen(): return [
         text='',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn(terminal + " -e htop")}
+            'Button1': launch_htop
+        }
     ),
     widget.Memory(
         format='Mem: {MemUsed}M'
@@ -413,8 +451,8 @@ def wid_second_screen(): return [
         text='墳',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn('pavucontrol')}
+            'Button1': launch_pavucontrol
+        }
     ),
     widget.PulseVolume(),
     widget.TextBox(
@@ -494,25 +532,26 @@ cursor_warp = False
 
 floating_layout = layout.Floating(
     float_rules=[
-        {'wmclass': 'confirm'},
-        {'wmclass': 'dialog'},
-        {'wmclass': 'download'},
-        {'wmclass': 'error'},
-        {'wmclass': 'file_progress'},
-        {'wmclass': 'notification'},
-        {'wmclass': 'splash'},
-        {'wmclass': 'toolbar'},
-        {'wmclass': 'confirmreset'},
-        {'wmclass': 'makebranch'},
-        {'wmclass': 'maketag'},
-        {'wmclass': 'Arandr'},
-        {'wmclass': 'arcolinux-logout'},
-        {'wname': 'branchdialog'},
-        {'wname': 'Open File'},
-        {'wname': 'pinentry'},
-        {'wname': 'Stacer'},
-        {'wmclass': 'ssh-askpass'},
-        {'wname': 'Nitrogen'}
+        *layout.Floating.default_float_rules,
+        Match(wm_class='confirmreset'),
+        Match(wm_class='makebranch'),
+        Match(wm_class='maketag'),
+        Match(wm_class='ssh-askpass'),
+        Match(title='branchdialog'),
+        Match(title='pinentry'),
+        Match(wm_class='confirm'),
+        Match(wm_class='dialog'),
+        Match(wm_class='download'),
+        Match(wm_class='error'),
+        Match(wm_class='file_progress'),
+        Match(wm_class='notification'),
+        Match(wm_class='splash'),
+        Match(wm_class='toolbar'),
+        Match(wm_class='Arandr'),
+        Match(wm_class='arcolinux-logout'),
+        Match(title='Open File'),
+        Match(title='Stacer'),
+        Match(title='Nitrogen')
     ],
     **layout_theme
 )
