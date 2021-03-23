@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=/home/jp/.scripts:$PATH
 
+# Custom exports
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
 # Path to your oh-my-zsh installation.
 #installation via script from github
 #export ZSH="/home/$USER/.oh-my-zsh"

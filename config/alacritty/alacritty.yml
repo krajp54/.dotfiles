@@ -59,55 +59,55 @@ draw_bold_text_with_bright_colors: true
 # The folder "colors" contain all the colorschemes available
 
 colors:
-  # COLORSCHEME: base16-helios-256.yml
+  # COLORSCHEME: base16-twilight-256.yml
   # Default colors
   primary:
-    background: "0x1d2021"
-    foreground: "0xd5d5d5"
+    background: '0x1e1e1e'
+    foreground: '0xa7a7a7'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   normal:
-    black: "0x1d2021"
-    red: "0xd72638"
-    green: "0x88b92d"
-    yellow: "0xf19d1a"
-    blue: "0x1e8bac"
-    magenta: "0xbe4264"
-    cyan: "0x1ba595"
-    white: "0xd5d5d5"
+    black: '0x1e1e1e'
+    red: '0xcf6a4c'
+    green: '0x8f9d6a'
+    yellow: '0xf9ee98'
+    blue: '0x7587a6'
+    magenta: '0x9b859d'
+    cyan: '0xafc4db'
+    white: '0xa7a7a7'
 
   # Bright colors
   bright:
-    black: "0x6f7579"
-    red: "0xd72638"
-    green: "0x88b92d"
-    yellow: "0xf19d1a"
-    blue: "0x1e8bac"
-    magenta: "0xbe4264"
-    cyan: "0x1ba595"
-    white: "0xe5e5e5"
+    black: '0x5f5a60'
+    red: '0xcf6a4c'
+    green: '0x8f9d6a'
+    yellow: '0xf9ee98'
+    blue: '0x7587a6'
+    magenta: '0x9b859d'
+    cyan: '0xafc4db'
+    white: '0xffffff'
 
   cursor:
-    text: "0x1d2021"
-    cursor: "0xd5d5d5"
+    text: '0x1e1e1e'
+    cursor: '0xa7a7a7'
 
   # Normal colors
   dim:
-    black: "0x232323"
-    red: "0x74423f"
-    green: "0x5e6547"
-    yellow: "0x8b7653"
-    blue: "0x556b79"
-    magenta: "0x6e4962"
-    cyan: "0x5c8482"
-    white: "0x828282"
+    black: '0x232323'
+    red: '0x74423f'
+    green: '0x5e6547'
+    yellow: '0x8b7653'
+    blue: '0x556b79'
+    magenta: '0x6e4962'
+    cyan: '0x5c8482'
+    white: '0x828282'
   indexed_colors:
-    - { index: 16, color: "0xeb8413" }
-    - { index: 17, color: "0xc85e0d" }
-    - { index: 18, color: "0x383c3e" }
-    - { index: 19, color: "0x53585b" }
-    - { index: 20, color: "0xcdcdcd" }
-    - { index: 21, color: "0xdddddd" }
+    - {index: 16, color: '0xcda869'}
+    - {index: 17, color: '0x9b703f'}
+    - {index: 18, color: '0x323537'}
+    - {index: 19, color: '0x464b50'}
+    - {index: 20, color: '0x838184'}
+    - {index: 21, color: '0xc3c3c3'}
 background_opacity: 0.92
 
 # * Default cursor on the terminal emulator
