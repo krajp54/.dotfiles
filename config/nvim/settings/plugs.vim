@@ -7,12 +7,13 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'jacoborus/tender.vim'
 Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'rakr/vim-one'
 
 " Icons for NerdTree
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-" IDE
+" * IDE
 
 " Easymotion
 Plug 'easymotion/vim-easymotion'

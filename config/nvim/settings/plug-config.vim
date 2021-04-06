@@ -3,7 +3,7 @@ scriptencoding utf-8
 " * Settings for the pluggins
 
 " Establish the theme and its settings
-colorscheme gruvbox
+colorscheme tender
 let g:gruvbox_contrast_dark = 'hard'
 
 " Settings for NERDTree
@@ -25,12 +25,12 @@ let g:fzf_layout = { 'window': { 'width' : 0.7, 'height': 0.6 } }
 let g:lightline#bufferline#enable_nerdfont = 1
 
 let g:lightline = {
-			\	'colorscheme': 'deus',
+			\	'colorscheme': 'darcula',
 			\	'active': {
 			\		'left': [ [ 'mode', 'paste' ],
 			\				[ 'readonly', 'relativepath', 'modified'] ],
 			\		'right': [ [ 'fileformat', 'fileencoding', 'filetype' ],
-			\				 [ 'gitbranch' ] ]
+			\				 [ 'gitbranch' ], [ 'kitestatus' ] ]
 			\	},
 			\	'tabline':{
 			\		'left': [ [ 'buffers' ] ],
@@ -41,7 +41,8 @@ let g:lightline = {
 			\				 [ 'line' ] ]
 			\	},
 			\	'component_function': {
-			\		'gitbranch': 'FugitiveHead'
+			\		'gitbranch': 'FugitiveHead',
+			\		'kitestatus': 'kite#statusline'
 			\	},
 			\	'subseparator': {
 			\		'left': '',
@@ -74,6 +75,8 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_html_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_typescript_checkers = ['eslint']
 let g:syntastic_aggregating_errors = 1
 
 " Settings for NERDCommenter
@@ -91,6 +94,12 @@ function! s:check_back_space() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+augroup disable_coc
+	autocmd FileType python let b:coc_suggest_disable = 1
+	autocmd FileType javascript let b:coc_suggest_disable = 1
+	autocmd FileType scss setl iskeyword+=@-@
+augroup END
 
 " Settings for closetag
 let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.xml'
@@ -115,9 +124,14 @@ let g:neoformat_enabled_js = ['prettier']
 let g:neoformat_enabled_json = ['prettier']
 let g:neoformat_enabled_ts = ['prettier']
 let g:neoformat_enabled_xml = ['prettier']
+let g:neoformat_enabled_css = ['prettier']
+let g:neoformat_enabled_markdown = ['prettier']
+let g:neoformat_enabled_python = ['autopep8']
 
 " Settings for IndentLine
 let g:indentLine_char = '¦'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
+" Settings for Kite
+let g:kite_supported_languages = ['javascript', 'python']
