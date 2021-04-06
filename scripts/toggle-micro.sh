@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Toggle microphone status
 
 pamixer -t --source="alsa_input.pci-0000_05_00.6.analog-stereo"
