@@ -17,14 +17,15 @@ from libqtile.utils import guess_terminal
 
 mod = "mod4"
 terminal = guess_terminal()
-my_explorer = "thunar"
+my_explorer = "nemo"
 br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
 hard_color = 'FADF7A'
 soft_color = '804455'
-micro_cmd = terminal + " -e ./.scripts/toggle-micro.sh"
-touchpad_cmd = terminal + " -e ./.scripts/toggle-touchpad.sh"
-screenshots_cmd = "shutter --no_session"
+micro_cmd = "bash ./.scripts/cinnamon-micro.sh"
+touchpad_cmd = "bash ./.scripts/cinnamon-touchpad.sh"
+select_screen = "bash ./.scripts/select-screen.sh"
+all_screen = "bash ./.scripts/all_screen.sh"
 
 # * Launch the autostart file
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
@@ -130,11 +131,11 @@ keys = [
         desc="Launch Rofi list for the open windows"),
 
     # Volume
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 3"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pulseaudio-ctl down 3"),
         desc="Decrease volume of default source"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer --increase 3"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pulseaudio-ctl up 3"),
         desc="Increase volume of default source"),
-    Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute"),
+    Key([], "XF86AudioMute", lazy.spawn("pulseaudio-ctl mute"),
         desc="Mute volume of default source"),
 
     # Microphone
@@ -162,9 +163,9 @@ keys = [
         desc="Prev-command"),
 
     # Shutter (Screenshots)
-    Key([mod, "shift"], "s", lazy.spawn(screenshots_cmd + " -s"),
-        desc="Launch Shutter for a selection screenshot"),
-    Key([mod], "Print", lazy.spawn(screenshots_cmd + " --full"),
+    Key([mod, "shift"], "s", lazy.spawn(select_screen),
+        desc="Open tool for a selection screenshot"),
+    Key([mod], "Print", lazy.spawn(all_screen),
         desc="Take a screenshot of full desktop"),
 
     # Launch Firefox
@@ -173,7 +174,7 @@ keys = [
 
     # Launch FileExplorer
     Key([mod, "shift"], "t", lazy.spawn(my_explorer),
-        desc="Launche File Explorer"),
+        desc="Launch File Explorer"),
 
     # Toggle between keyboards layout
     Key([mod], "space", lazy.widget["keyboardlayout"].next_keyboard(),
@@ -221,7 +222,7 @@ layouts = [
     ),
 ]
 
-# * Qtile v0.17 update
+# ! Qtile v0.17 update
 # Refactoring the mouse callbacks
 
 
@@ -234,7 +235,7 @@ def rofi_show_run():
 
 
 def logout_view():
-    qtile.cmd_spawn("arcolinux-logout")
+    qtile.cmd_spawn("shutdown now")
 
 
 def launch_stacer():
@@ -290,11 +291,11 @@ def custom_sep(): return widget.TextBox(
 
 
 def custom_clock(): return widget.Clock(
-        format='%B %d - %H:%M',
-        mouse_callbacks={
-            'Button1': open_calendar
-        }
-    )
+    format='%B %d - %H:%M',
+    mouse_callbacks={
+        'Button1': open_calendar
+    }
+)
 
 
 def wid_top_main_screen(): return [
@@ -327,7 +328,8 @@ def wid_top_main_screen(): return [
     ),
     custom_sep(),
     widget.KeyboardLayout(
-        configured_keyboards=['us', 'latam']
+        configured_keyboards=['us', 'latam'],
+        option="grp:win_space_toggle"
     ),
     custom_sep(),
     widget.Systray(),
@@ -409,8 +411,8 @@ def wid_bottom_main_screen(): return [
     ),
     widget.Backlight(
         backlight_name='amdgpu_bl0',
-        #  brightness_file=br_path,
-        #  max_brightness_file=br_max_path,
+        brightness_file=br_path,
+        max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
         step=5
     ),
@@ -460,6 +462,7 @@ def wid_second_screen(): return [
         fontsize=18
     ),
     widget.Backlight(
+        backlight_name='amdgpu_bl0',
         brightness_file=br_path,
         max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
@@ -490,6 +493,7 @@ def get_num_monitors():
             if preferred:
                 num_monitors += 1
     except Exception as e:
+        print(e)
         return 1
     else:
         return num_monitors
