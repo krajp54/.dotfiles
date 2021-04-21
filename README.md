@@ -46,6 +46,7 @@ rcdn -d <dotfile>
 ## Apps Config
 
 - [Alacritty](https://github.com/krajp54/.dotfiles/tree/master/config/alacritty)
+- [Kitty](https://github.com/krajp54/.dotfiles/tree/master/config/kitty)
 - [Neovim](https://github.com/krajp54/.dotfiles/tree/master/config/nvim)
 - [Rofi](config/rofi/config.rasi)
 - [Tint2](config/tint2/tint2rc)

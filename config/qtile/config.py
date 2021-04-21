@@ -234,7 +234,7 @@ def rofi_show_run():
     qtile.cmd_spawn("rofi -show run")
 
 
-def logout_view():
+def logout_action():
     qtile.cmd_spawn("shutdown now")
 
 
@@ -340,7 +340,7 @@ def wid_top_main_screen(): return [
         fontsize=15,
         padding=3,
         mouse_callbacks={
-            'Button1': logout_view
+            'Button1': logout_action
         }
     ),
 ]

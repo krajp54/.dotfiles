@@ -38,10 +38,10 @@ from Xlib import display as xdisplay
 
 from typing import List
 
-from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Screen
+from libqtile import bar, layout, widget, qtile
+from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
+from libqtile.utils import guess_terminall
 ```
 
 ### Variables
@@ -51,13 +51,15 @@ Declaration of the variables that I used for the rest of the configuration.
 ```python
 mod = "mod4"
 terminal = guess_terminal()
+my_explorer = "nemo"
 br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
-hard_color = 'E88360'
-soft_color = '3C578C'
-micro_cmd = terminal + " -e ./.scripts/toggle-micro.sh"
-touchpad_cmd = terminal + " -e ./.scripts/toggle-touchpad.sh"
-screenshots_cmd = 'shutter --no_session'
+hard_color = 'FADF7A'
+soft_color = '804455'
+micro_cmd = "bash ./.scripts/cinnamon-micro.sh"
+touchpad_cmd = "bash ./.scripts/cinnamon-touchpad.sh"
+select_screen = "bash ./.scripts/select-screen.sh"
+all_screen = "bash ./.scripts/all_screen.sh"
 ```
 
 ### Autostart
@@ -113,13 +115,17 @@ Declaration of my personal keybindings that I use when I'm inside a Qtile sessio
 | Key                    | Action                                             |
 | ---------------------- | -------------------------------------------------- |
 | **ModKey + Return**    | Launches the default terminal emulator of the host |
-| **ModKey + Tab**       | Change the current layout                          |
+| **ModKey + (Shift +) Tab**       | Change the current layout                          |
 | **ModKey + w**         | Close the focus window                             |
 | **ModKey + Ctrl + r**  | Restart Qtile                                      |
 | **ModKey + Ctrl + q**  | Close Qtile session                                |
 | **ModKey + m**         | Launchs Rofi Drun mod                              |
 | **ModKey + Shift + p** | Launchs Cmus Music Player                          |
+| **ModKey + (Down/Right/Left)** | Media controls for the Cmus Music Player |
+| **ModKey + Shift + s** | Open tool for a selection screenshot |
 | **ModKey + Shift + f** | Launchs Firefox                                    |
+| **ModKey + Shift + t** | Launchs File Explorer of the host |
+| **ModKey + Space bar** | Change the keyboard layout of the keyboard widget |
 
 ```python
 keys = [
@@ -193,11 +199,11 @@ keys = [
         desc="Launch Rofi list for the open windows"),
 
     # Volume
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 3"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pulseaudio-ctl down 3"),
         desc="Decrease volume of default source"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer --increase 3"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pulseaudio-ctl up 3"),
         desc="Increase volume of default source"),
-    Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute"),
+    Key([], "XF86AudioMute", lazy.spawn("pulseaudio-ctl mute"),
         desc="Mute volume of default source"),
 
     # Microphone
@@ -225,14 +231,22 @@ keys = [
         desc="Prev-command"),
 
     # Shutter (Screenshots)
-    Key([mod, "shift"], "s", lazy.spawn(screenshots_cmd + " -s"),
-        desc="Launch Shutter for a selection screenshot"),
-    Key([mod], "Print", lazy.spawn(screenshots_cmd + " --full"),
+    Key([mod, "shift"], "s", lazy.spawn(select_screen),
+        desc="Open tool for a selection screenshot"),
+    Key([mod], "Print", lazy.spawn(all_screen),
         desc="Take a screenshot of full desktop"),
 
     # Launch Firefox
     Key([mod, "shift"], "f", lazy.spawn("firefox"),
         desc="Launch Firefox Browser"),
+
+    # Launch FileExplorer
+    Key([mod, "shift"], "t", lazy.spawn(my_explorer),
+        desc="Launch File Explorer"),
+
+    # Toggle between keyboards layout
+    Key([mod], "space", lazy.widget["keyboardlayout"].next_keyboard(),
+        desc="Next keyboard layout")
 ]
 ```
 
@@ -294,20 +308,26 @@ layouts = [
 
 floating_layout = layout.Floating(
     float_rules=[
-        {'wmclass': 'confirm'},
-        {'wmclass': 'dialog'},
-        {'wmclass': 'download'},
-        {'wmclass': 'error'},
-        {'wmclass': 'file_progress'},
-        {'wmclass': 'notification'},
-        {'wmclass': 'splash'},
-        {'wmclass': 'toolbar'},
-        {'wmclass': 'confirmreset'},
-        {'wmclass': 'makebranch'},
-        {'wmclass': 'maketag'},
-        {'wname': 'branchdialog'},
-        {'wname': 'pinentry'},
-        {'wmclass': 'ssh-askpass'},
+        *layout.Floating.default_float_rules,
+        Match(wm_class='confirmreset'),
+        Match(wm_class='makebranch'),
+        Match(wm_class='maketag'),
+        Match(wm_class='ssh-askpass'),
+        Match(title='branchdialog'),
+        Match(title='pinentry'),
+        Match(wm_class='confirm'),
+        Match(wm_class='dialog'),
+        Match(wm_class='download'),
+        Match(wm_class='error'),
+        Match(wm_class='file_progress'),
+        Match(wm_class='notification'),
+        Match(wm_class='splash'),
+        Match(wm_class='toolbar'),
+        Match(wm_class='Arandr'),
+        Match(wm_class='arcolinux-logout'),
+        Match(title='Open File'),
+        Match(title='Stacer'),
+        Match(title='Nitrogen')
     ],
     **layout_theme
 )
@@ -318,6 +338,39 @@ floating_layout = layout.Floating(
 The widgets are the functionalities built-in the bar from the top and the bottom of my configuration.
 
 ```python
+# Refactoring the mouse callbacks for Qtile v0.17
+
+
+def open_calendar():
+    qtile.cmd_spawn(terminal + " -e khal interactive")
+
+
+def rofi_show_run():
+    qtile.cmd_spawn("rofi -show run")
+
+
+def logout_action():
+    qtile.cmd_spawn("shutdown now")
+
+
+def launch_stacer():
+    qtile.cmd_spawn('stacer')
+
+
+def launch_htop():
+    qtile.cmd_spawn(terminal + " -e htop")
+
+
+def launch_fe():
+    qtile.cmd_spawn(my_explorer)
+
+
+def launch_pavucontrol():
+    qtile.cmd_spawn('pavucontrol')
+
+
+# * Widgets Settings
+
 widget_defaults = dict(
     font='Caskaydia Cove Nerd Font',
     fontsize=13,
@@ -351,14 +404,21 @@ def custom_sep(): return widget.TextBox(
 )
 
 
+def custom_clock(): return widget.Clock(
+    format='%B %d - %H:%M',
+    mouse_callbacks={
+        'Button1': open_calendar
+    }
+)
+
+
 def wid_top_main_screen(): return [
     widget.TextBox(
         text='',
         fontsize=25,
         padding=10,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn("rofi -show run")
+            'Button1': rofi_show_run
         }
     ),
     widget.Sep(
@@ -383,22 +443,19 @@ def wid_top_main_screen(): return [
     custom_sep(),
     widget.KeyboardLayout(
         configured_keyboards=['us', 'latam'],
-        option='grp:win_space_toggle'
+        option="grp:win_space_toggle"
     ),
     custom_sep(),
     widget.Systray(),
     custom_sep(),
-    widget.Clock(
-        format='%B %d - %H:%M',
-        mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
-            terminal + " -e khal interactive")}
-    ),
+    custom_clock(),
     widget.TextBox(
         text=' ',
         fontsize=15,
         padding=3,
-        mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(
-            terminal + " -e shutdown now")}
+        mouse_callbacks={
+            'Button1': logout_action
+        }
     ),
 ]
 
@@ -425,7 +482,10 @@ def wid_bottom_main_screen(): return [
     ),
     widget.TextBox(
         text='﬙',
-        fontsize=18
+        fontsize=18,
+        mouse_callbacks={
+            'Button1': launch_stacer
+        }
     ),
     widget.CPU(
         format='CPU: {load_percent}%'
@@ -434,8 +494,8 @@ def wid_bottom_main_screen(): return [
         text='',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile: qtile.cmd_spawn(
-                terminal + " -e htop")}
+            'Button1': launch_htop
+        }
     ),
     widget.Memory(
         format='Mem: {MemUsed}M'
@@ -444,7 +504,8 @@ def wid_bottom_main_screen(): return [
         text='',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile: qtile.cmd_spawn('Thunar')}
+            'Button1': launch_fe
+        }
     ),
     widget.DF(
         format='({uf}{m}|{r:.0f}%)',
@@ -454,8 +515,8 @@ def wid_bottom_main_screen(): return [
         text='墳',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn('pavucontrol')}
+            'Button1': launch_pavucontrol
+        }
     ),
     widget.PulseVolume(),
     widget.TextBox(
@@ -463,6 +524,7 @@ def wid_bottom_main_screen(): return [
         fontsize=18
     ),
     widget.Backlight(
+        backlight_name='amdgpu_bl0',
         brightness_file=br_path,
         max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
@@ -495,8 +557,8 @@ def wid_second_screen(): return [
         text='',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn(terminal + " -e htop")}
+            'Button1': launch_htop
+        }
     ),
     widget.Memory(
         format='Mem: {MemUsed}M'
@@ -505,8 +567,8 @@ def wid_second_screen(): return [
         text='墳',
         fontsize=18,
         mouse_callbacks={
-            'Button1': lambda qtile:
-            qtile.cmd_spawn('pavucontrol')}
+            'Button1': launch_pavucontrol
+        }
     ),
     widget.PulseVolume(),
     widget.TextBox(
@@ -514,11 +576,14 @@ def wid_second_screen(): return [
         fontsize=18
     ),
     widget.Backlight(
+        backlight_name='amdgpu_bl0',
         brightness_file=br_path,
         max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
         step=5
     ),
+    custom_sep(),
+    custom_clock(),
 ]
 ```
 
