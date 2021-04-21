@@ -49,6 +49,9 @@ Plug 'vim-syntastic/syntastic'
 " NerdCommenter
 Plug 'preservim/nerdcommenter'
 
+" Better-Comments
+Plug 'jbgutierrez/vim-better-comments'
+
 " Autopairs
 Plug 'jiangmiao/auto-pairs'
 

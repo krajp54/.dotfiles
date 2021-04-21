@@ -44,7 +44,7 @@ font:
     family: RobotoMono Nerd Font
     style: Bold Italic
 
-  size: 10.0
+  size: 8.0
 
   # Space between characters
   offset:
