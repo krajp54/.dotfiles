@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Launch the panel
 tint2 &
@@ -8,4 +8,3 @@ volumeicon &
 
 # Daemon for the eye-care utility
 redshift-gtk & disown
-

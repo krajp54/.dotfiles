@@ -1,5 +1,7 @@
 # Qtile Config
 
+<!-- markdownlint-configure-file { "MD013": { "line_length": 200 } } -->
+
 ![Qtile](../../screenshots/qtile2.png)
 
 ## Table of contents
@@ -112,20 +114,20 @@ def float_firefox(window):
 
 Declaration of my personal keybindings that I use when I'm inside a Qtile session, these are some important:
 
-| Key                    | Action                                             |
-| ---------------------- | -------------------------------------------------- |
-| **ModKey + Return**    | Launches the default terminal emulator of the host |
-| **ModKey + (Shift +) Tab**       | Change the current layout                          |
-| **ModKey + w**         | Close the focus window                             |
-| **ModKey + Ctrl + r**  | Restart Qtile                                      |
-| **ModKey + Ctrl + q**  | Close Qtile session                                |
-| **ModKey + m**         | Launchs Rofi Drun mod                              |
-| **ModKey + Shift + p** | Launchs Cmus Music Player                          |
-| **ModKey + (Down/Right/Left)** | Media controls for the Cmus Music Player |
-| **ModKey + Shift + s** | Open tool for a selection screenshot |
-| **ModKey + Shift + f** | Launchs Firefox                                    |
-| **ModKey + Shift + t** | Launchs File Explorer of the host |
-| **ModKey + Space bar** | Change the keyboard layout of the keyboard widget |
+| Key                            | Action                                             |
+| ------------------------------ | -------------------------------------------------- |
+| **ModKey + Return**            | Launches the default terminal emulator of the host |
+| **ModKey + (Shift +) Tab**     | Change the current layout                          |
+| **ModKey + w**                 | Close the focus window                             |
+| **ModKey + Ctrl + r**          | Restart Qtile                                      |
+| **ModKey + Ctrl + q**          | Close Qtile session                                |
+| **ModKey + m**                 | Launchs Rofi Drun mod                              |
+| **ModKey + Shift + p**         | Launchs Cmus Music Player                          |
+| **ModKey + (Down/Right/Left)** | Media controls for the Cmus Music Player           |
+| **ModKey + Shift + s**         | Open tool for a selection screenshot               |
+| **ModKey + Shift + f**         | Launchs Firefox                                    |
+| **ModKey + Shift + t**         | Launchs File Explorer of the host                  |
+| **ModKey + Space bar**         | Change the keyboard layout of the keyboard widget  |
 
 ```python
 keys = [
