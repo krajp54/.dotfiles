@@ -29,6 +29,9 @@ nmap <Leader>fc :Neoformat<CR>
 " List all buffers
 nmap <Leader><Tab> :Buffers<CR>
 
+" Search for files in the current project
+nmap <Leader>fi :GFiles<CR>
+
 " Delete the current buffer
 nmap <Leader>bc :bdelete<CR>
 

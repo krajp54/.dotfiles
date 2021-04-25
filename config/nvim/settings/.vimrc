@@ -23,6 +23,7 @@ set nobackup
 set nowritebackup
 set cmdheight=2
 set showtabline=2
+set mmp=3000
 " set nocompatible
 
 syntax enable
