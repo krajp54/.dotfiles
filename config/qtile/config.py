@@ -13,19 +13,20 @@ from typing import List
 from libqtile import bar, layout, widget, qtile
 from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
+# from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal()
-my_explorer = "nemo"
+terminal = "kitty"
+my_explorer = "thunar"
 br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
 br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
-hard_color = 'FADF7A'
-soft_color = '804455'
+hard_color = 'adc2c0'
+soft_color = '0e1311'
 micro_cmd = "bash ./.scripts/cinnamon-micro.sh"
-touchpad_cmd = "bash ./.scripts/cinnamon-touchpad.sh"
+touchpad_cmd = "bash ./.scripts/toggle-touchpad.sh"
 select_screen = "bash ./.scripts/select-screen.sh"
 all_screen = "bash ./.scripts/all_screen.sh"
+rofi_apps = "bash ./.config/rofi/bin/"
 
 # * Launch the autostart file
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
@@ -125,10 +126,12 @@ keys = [
     #     desc="Spawn a command using a prompt widget"),
 
     # Keybindings for Rofi
-    Key([mod], "m", lazy.spawn("rofi -show drun"),
+    # Key([mod], "m", lazy.spawn("rofi -show drun"),
+    #     desc="Launch Rofi Run List"),
+    Key([mod], "m", lazy.spawn(rofi_apps + "launcher_misc"),
         desc="Launch Rofi Run List"),
-    Key([mod, 'shift'], "m", lazy.spawn("rofi -show"),
-        desc="Launch Rofi list for the open windows"),
+    # Key([mod, 'shift'], "m", lazy.spawn("rofi -show"),
+    #     desc="Launch Rofi list for the open windows"),
 
     # Volume
     Key([], "XF86AudioLowerVolume", lazy.spawn("pulseaudio-ctl down 3"),
@@ -231,11 +234,13 @@ def open_calendar():
 
 
 def rofi_show_run():
-    qtile.cmd_spawn("rofi -show run")
+    # qtile.cmd_spawn("rofi -show run")
+    qtile.cmd_spawn(rofi_apps + "launcher_misc")
 
 
 def logout_action():
-    qtile.cmd_spawn("shutdown now")
+    # qtile.cmd_spawn("shutdown now")
+    qtile.cmd_spawn(rofi_apps + "menu_powermenu")
 
 
 def launch_stacer():
@@ -555,7 +560,8 @@ floating_layout = layout.Floating(
         Match(wm_class='arcolinux-logout'),
         Match(title='Open File'),
         Match(title='Stacer'),
-        Match(title='Nitrogen')
+        Match(title='Nitrogen'),
+        Match(title='Bluetooth Devices')
     ],
     **layout_theme
 )
