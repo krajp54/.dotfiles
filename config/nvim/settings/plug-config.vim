@@ -27,37 +27,37 @@ let g:lightline#bufferline#enable_nerdfont = 1
 let g:lightline = {
 			\	'colorscheme': 'darcula',
 			\	'active': {
-			\		'left': [ [ 'mode', 'paste' ],
-			\				[ 'readonly', 'relativepath', 'modified'] ],
-			\		'right': [ [ 'fileformat', 'fileencoding', 'filetype' ],
-			\				 [ 'gitbranch' ], [ 'kitestatus' ] ]
-			\	},
-			\	'tabline':{
-			\		'left': [ [ 'buffers' ] ],
-			\		'right': [ [ 'close' ] ]
-			\	},
-			\	'inactive': {
-			\		'right': [ [ 'filetype' ],
-			\				 [ 'line' ] ]
-			\	},
-			\	'component_function': {
-			\		'gitbranch': 'FugitiveHead',
-			\		'kitestatus': 'kite#statusline'
-			\	},
-			\	'subseparator': {
-			\		'left': '',
-			\		'right': ''
-			\	},
-			\	'component_expand':{
-			\		'buffers': 'lightline#bufferline#buffers'
-			\	},
-			\	'component_type':{
-			\		'buffers': 'tabsel'
-			\	},
-			\	'component_raw':{
-			\		'buffers': 1
-			\	}
-			\ }
+				\		'left': [ [ 'mode', 'paste' ],
+				\				[ 'readonly', 'relativepath', 'modified'] ],
+				\		'right': [ [ 'fileformat', 'fileencoding', 'filetype' ],
+				\				 [ 'gitbranch' ], [ 'kitestatus' ] ]
+				\	},
+				\	'tabline':{
+				\		'left': [ [ 'buffers' ] ],
+				\		'right': [ [ 'close' ] ]
+				\	},
+				\	'inactive': {
+					\		'right': [ [ 'filetype' ],
+					\				 [ 'line' ] ]
+					\	},
+					\	'component_function': {
+						\		'gitbranch': 'FugitiveHead',
+						\		'kitestatus': 'kite#statusline'
+						\	},
+						\	'subseparator': {
+							\		'left': '',
+							\		'right': ''
+							\	},
+							\	'component_expand':{
+							\		'buffers': 'lightline#bufferline#buffers'
+							\	},
+							\	'component_type':{
+							\		'buffers': 'tabsel'
+							\	},
+							\	'component_raw':{
+							\		'buffers': 1
+							\	}
+							\ }
 
 " Fix Sign Background GitGutter
 highlight! link SignColumn LineNr
@@ -102,7 +102,7 @@ augroup disable_coc
 augroup END
 
 " Settings for closetag
-let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.xml'
+let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.xml, *.js'
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 let g:closetag_filetypes = 'html,xhtml,phtml,xml'
 let g:closetag_xhtml_filetypes = 'xhtml,jsx'
@@ -135,3 +135,7 @@ let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
 " Settings for Kite
 let g:kite_supported_languages = ['javascript', 'python']
+
+" Settings for Floaterm
+let g:floaterm_shell = "zsh"
+let g:floaterm_autoclose = 1

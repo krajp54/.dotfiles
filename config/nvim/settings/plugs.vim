@@ -55,6 +55,12 @@ Plug 'jbgutierrez/vim-better-comments'
 " Autopairs
 Plug 'jiangmiao/auto-pairs'
 
+" Surround
+Plug 'tpope/vim-surround'
+
+" EditorConfig
+Plug 'editorconfig/editorconfig-vim'
+
 " CoC (Completion)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -69,6 +75,9 @@ Plug 'sheerun/vim-polyglot'
 
 " Indent lines
 Plug 'Yggdroot/indentLine'
+
+" Floaterm
+Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 

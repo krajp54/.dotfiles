@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=/home/jp/.scripts:$PATH
+export PATH=$HOME/.scripts:$HOME/.config/rofi/bin:$PATH
 
 # Custom exports
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -14,13 +14,15 @@ export ZSH=/usr/share/oh-my-zsh/
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="typewritten"
+# ZSH_THEME="typewritten"
+ZSH_THEME=random
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "typewritten" "lambda" )
+ZSH_THEME_RANDOM_CANDIDATES=( "typewritten" "intheloop" "wuffers" )
+# ZSH_THEME_RANDOM_IGNORED=( mikeh gallifrey crcandy mortalscumbag dallas dpoggi macovsky gallois josh jtriley apple )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -325,6 +327,9 @@ alias vim='nvim'
 # List directories (K Plugin)
 alias kd='k -hdA'
 alias k='k -haA'
+
+# Bluetooth CLI
+alias bl='bluetoothctl'
 
 # * Bash program when terminal emulator runs
 neofetch

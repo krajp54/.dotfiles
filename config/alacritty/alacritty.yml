@@ -25,23 +25,24 @@ window:
 # * Maximum number of lines in the scrollback buffer.
 scrolling:
   history: 2000
+  multiplier: 3
 
 # * Font configuration
 font:
   normal:
-    family: RobotoMono Nerd Font
+    family: CaskaydiaCove Nerd Font
     style: Regular
 
   bold:
-    family: RobotoMono Nerd Font
+    family: CaskaydiaCove Nerd Font
     style: Bold
 
   italic:
-    family: RobotoMono Nerd Font
+    family: CaskaydiaCove Nerd Font
     style: Italic
 
   bold_italic:
-    family: RobotoMono Nerd Font
+    family: CaskaydiaCove Nerd Font
     style: Bold Italic
 
   size: 8.0
@@ -84,7 +85,7 @@ colors:
     magenta: "#b85e7b"
     cyan: "#a3babf"
     white: "#ffffff"
-background_opacity: 0.92
+background_opacity: 0.80
 
 # * Default cursor on the terminal emulator
 cursor:
@@ -92,7 +93,7 @@ cursor:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  style: Block
+  style: Underline
 # * List of keybindings available
 #key_bindings:
 #- { key: Paste,                                action: Paste          }
@@ -182,3 +183,8 @@ cursor:
 #- { key: F,      mods: Command|Control,    action: ToggleFullscreen }
 #- { key: F,      mods: Command,            action: SearchForward    }
 #- { key: B,      mods: Command,            action: SearchBackward   }
+
+shell:
+  program: /bin/zsh
+  args:
+    - --login

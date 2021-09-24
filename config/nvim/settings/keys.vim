@@ -30,7 +30,7 @@ nmap <Leader>fc :Neoformat<CR>
 nmap <Leader><Tab> :Buffers<CR>
 
 " Search for files in the current project
-nmap <Leader>fi :GFiles<CR>
+nmap <Leader>fi :FZF<CR>
 
 " Delete the current buffer
 nmap <Leader>bc :bdelete<CR>
@@ -49,6 +49,9 @@ nmap <Leader>gi :Git<CR>
 
 " Disable warnings from Syntastic
 nmap <Leader>x :lclose<CR>
+
+" Show a new floaterm popup
+nmap <Leader>te :FloatermNew<CR>
 
 " Keybindings for the bufferline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
