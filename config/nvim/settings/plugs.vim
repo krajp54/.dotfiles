@@ -79,5 +79,8 @@ Plug 'Yggdroot/indentLine'
 " Floaterm
 Plug 'voldikss/vim-floaterm'
 
+" GoLang
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
 

@@ -24,7 +24,8 @@ hard_color = 'adc2c0'
 soft_color = '0e1311'
 micro_cmd = "bash ./.scripts/cinnamon-micro.sh"
 touchpad_cmd = "bash ./.scripts/toggle-touchpad.sh"
-select_screen = "bash ./.scripts/select-screen.sh"
+#  select_screen = "bash ./.scripts/select-screen.sh"
+select_screen = "flameshot gui"
 all_screen = "bash ./.scripts/all_screen.sh"
 rofi_apps = "bash ./.config/rofi/bin/"
 
@@ -92,9 +93,9 @@ keys = [
         desc="Move window left in current stack "),
 
     # Actions for the monitors
-    Key([mod], "a", lazy.to_screen(0),
+    Key([mod], "s", lazy.to_screen(0),
         desc="Move focus to monitor 1"),
-    Key([mod], "s", lazy.to_screen(1),
+    Key([mod], "a", lazy.to_screen(1),
         desc="Move focus to monitor 2"),
 
     # Swap panes of split stack
@@ -130,8 +131,8 @@ keys = [
     #     desc="Launch Rofi Run List"),
     Key([mod], "m", lazy.spawn(rofi_apps + "launcher_misc"),
         desc="Launch Rofi Run List"),
-    # Key([mod, 'shift'], "m", lazy.spawn("rofi -show"),
-    #     desc="Launch Rofi list for the open windows"),
+    Key([mod, 'shift'], "m", lazy.spawn("rofi -show"),
+        desc="Launch Rofi list for the open windows"),
 
     # Volume
     Key([], "XF86AudioLowerVolume", lazy.spawn("pulseaudio-ctl down 3"),
@@ -389,7 +390,7 @@ def wid_bottom_main_screen(): return [
         }
     ),
     widget.Memory(
-        format='Mem: {MemUsed}M'
+        format='Mem:{MemUsed: .2f}M'
     ),
     widget.TextBox(
         text='',
@@ -452,7 +453,7 @@ def wid_second_screen(): return [
         }
     ),
     widget.Memory(
-        format='Mem: {MemUsed}M'
+        format='Mem:{MemUsed: .2f}M'
     ),
     widget.TextBox(
         text='墳',
@@ -561,7 +562,8 @@ floating_layout = layout.Floating(
         Match(title='Open File'),
         Match(title='Stacer'),
         Match(title='Nitrogen'),
-        Match(title='Bluetooth Devices')
+        Match(title='Bluetooth Devices'),
+        Match(title='Screenshot')
     ],
     **layout_theme
 )
