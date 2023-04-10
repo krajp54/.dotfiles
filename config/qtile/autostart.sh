@@ -1,5 +1,12 @@
 #!/bin/sh
 
+function run {
+  if ! pgrep -x $(basename $1 | head -c 15) 1>/dev/null;
+  then
+    $@&
+  fi
+}
+
 # Daemon for the battery icon
 cbatticon -u 5 &
 
@@ -8,7 +15,8 @@ redshift-gtk & disown
 
 # Settings for the second monitor
 # xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x172 --rotate normal --output HDMI-1-0 --mode 1366x768 --pos 1920x0 --rotate normal
-xrandr --output eDP-1 --primary --mode 1920x1080 --pos 1366x73 --rotate normal --output HDMI-1-0 --mode 1366x768 --pos 0x0 --rotate normal
+# xrandr --output eDP --primary --mode 1920x1080 --pos 1366x73 --rotate normal --output HDMI-1-0 --mode 1366x768 --pos 0x0 --rotate normal
+xrandr --output eDP --primary --mode 1920x1080 --pos 0x70 --rotate normal --output HDMI-1-0 --mode 1366x768 --pos 1920x0 --rotate normal
 
 # Restore brightness with a backlight utility
 # light -I
@@ -29,15 +37,14 @@ udiskie -t &
 setxkbmap -layout us,latam -option grp:win_space_toggle
 
 # Setting the numlock in the keyboard
-numlockx &
+numlockx on &
 
 # Power Manager from Xfce
 xfce4-power-manager &
 
 # Daemon for Bluetooth
-# blueberry-tray &
-blueman-applet &
-
+blueberry-tray &
+# blueman-applet &
 # Policies
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
@@ -45,4 +52,7 @@ blueman-applet &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 
 # Hybrid Graphics
-optimus-manager-qt &
+# optimus-manager-qt &
+
+# Asus Battery Control
+asusctl -c 60

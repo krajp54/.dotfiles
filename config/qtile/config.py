@@ -16,10 +16,10 @@ from libqtile.lazy import lazy
 # from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "alacritty"
 my_explorer = "thunar"
-br_path = '/sys/class/backlight/amdgpu_bl0/brightness'
-br_max_path = '/sys/class/backlight/amdgpu_bl0/max_brightness'
+br_path = '/sys/class/backlight/amdgpu_bl1/brightness'
+br_max_path = '/sys/class/backlight/amdgpu_bl1/max_brightness'
 hard_color = 'adc2c0'
 soft_color = '0e1311'
 micro_cmd = "bash ./.scripts/cinnamon-micro.sh"
@@ -36,6 +36,7 @@ qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call([path.join(qtile_path, 'autostart.sh')])
+
 
 # * Launch every dialog window as a floating window
 
@@ -93,9 +94,9 @@ keys = [
         desc="Move window left in current stack "),
 
     # Actions for the monitors
-    Key([mod], "s", lazy.to_screen(0),
+    Key([mod], "s", lazy.to_screen(1),
         desc="Move focus to monitor 1"),
-    Key([mod], "a", lazy.to_screen(1),
+    Key([mod], "a", lazy.to_screen(0),
         desc="Move focus to monitor 2"),
 
     # Swap panes of split stack
@@ -135,11 +136,18 @@ keys = [
         desc="Launch Rofi list for the open windows"),
 
     # Volume
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pulseaudio-ctl down 3"),
+    #  Key([], "XF86AudioLowerVolume", lazy.spawn("pulseaudio-ctl down 3"),
+    #      desc="Decrease volume of default source"),
+    #  Key([], "XF86AudioRaiseVolume", lazy.spawn("pulseaudio-ctl up 3"),
+    #      desc="Increase volume of default source"),
+    #  Key([], "XF86AudioMute", lazy.spawn("pulseaudio-ctl mute"),
+    #      desc="Mute volume of default source"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer set Master 3%-"),
         desc="Decrease volume of default source"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pulseaudio-ctl up 3"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer set Master 3%+"),
         desc="Increase volume of default source"),
-    Key([], "XF86AudioMute", lazy.spawn("pulseaudio-ctl mute"),
+    Key([], "XF86AudioMute",
+        lazy.spawn("amixer -D pulse set Master 1+ toggle"),
         desc="Mute volume of default source"),
 
     # Microphone
@@ -182,7 +190,11 @@ keys = [
 
     # Toggle between keyboards layout
     Key([mod], "space", lazy.widget["keyboardlayout"].next_keyboard(),
-        desc="Next keyboard layout")
+        desc="Next keyboard layout"),
+
+    # ArcoLinux Logout
+    Key([mod], "x", lazy.spawn("archlinux-logout"),
+        desc="Launch Power Menu")
 ]
 
 # * Workspaces Settings
@@ -300,7 +312,7 @@ def custom_clock(): return widget.Clock(
     format='%B %d - %H:%M',
     mouse_callbacks={
         'Button1': open_calendar
-    }
+    },
 )
 
 
@@ -321,7 +333,7 @@ def wid_top_main_screen(): return [
     widget.WindowName(),
     widget.Wlan(
         interface="wlp4s0",
-        format='{essid}'
+        format='{essid}',
     ),
     widget.Net(
         interface="wlp4s0",
@@ -335,7 +347,7 @@ def wid_top_main_screen(): return [
     custom_sep(),
     widget.KeyboardLayout(
         configured_keyboards=['us', 'latam'],
-        option="grp:win_space_toggle"
+        option="grp:win_space_toggle",
     ),
     custom_sep(),
     widget.Systray(),
@@ -416,7 +428,7 @@ def wid_bottom_main_screen(): return [
         fontsize=18
     ),
     widget.Backlight(
-        backlight_name='amdgpu_bl0',
+        backlight_name='amdgpu_bl1',
         brightness_file=br_path,
         max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
@@ -468,7 +480,7 @@ def wid_second_screen(): return [
         fontsize=18
     ),
     widget.Backlight(
-        backlight_name='amdgpu_bl0',
+        backlight_name='amdgpu_bl1',
         brightness_file=br_path,
         max_brightness_file=br_max_path,
         change_command='brightnessctl set {0}',
@@ -543,12 +555,15 @@ cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
         *layout.Floating.default_float_rules,
-        Match(wm_class='confirmreset'),
-        Match(wm_class='makebranch'),
-        Match(wm_class='maketag'),
-        Match(wm_class='ssh-askpass'),
-        Match(title='branchdialog'),
-        Match(title='pinentry'),
+        Match(wm_class='confirmreset'),  # gitk
+        Match(wm_class='makebranch'),  # gitk
+        Match(wm_class='maketag'),  # gitk
+        Match(wm_class='ssh-askpass'),  # ssh-askpass
+        Match(title='branchdialog'),  # gitk
+        Match(title='pinentry'),  # GPG key password entry
+        Match(wm_class='Arcolinux-welcome-app.py'),
+        Match(wm_class='Archlinux-tweak-tool.py'),
+        Match(wm_class='Arcolinux-calamares-tool.py'),
         Match(wm_class='confirm'),
         Match(wm_class='dialog'),
         Match(wm_class='download'),
@@ -558,17 +573,20 @@ floating_layout = layout.Floating(
         Match(wm_class='splash'),
         Match(wm_class='toolbar'),
         Match(wm_class='Arandr'),
-        Match(wm_class='arcolinux-logout'),
+        Match(wm_class='feh'),
+        Match(wm_class='Galculator'),
+        Match(wm_class='archlinux-logout'),
         Match(title='Open File'),
         Match(title='Stacer'),
         Match(title='Nitrogen'),
         Match(title='Bluetooth Devices'),
         Match(title='Screenshot')
     ],
+    fullscreen_border_width=0,
     **layout_theme
 )
 
 auto_fullscreen = True
-focus_on_window_activation = "urgent"
+focus_on_window_activation = "smart"
 
 wmname = "LG3D"
